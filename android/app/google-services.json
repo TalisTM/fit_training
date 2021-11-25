@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "644001521269",
+    "project_id": "fit-training-51409",
+    "storage_bucket": "fit-training-51409.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:644001521269:android:a0a7987dc660fe7550a23c",
+        "android_client_info": {
+          "package_name": "com.talis.fit_training"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "644001521269-e62vmkf8efcap4gh4gv3lvbfm3ni06b0.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.talis.fit_training",
+            "certificate_hash": "62021b80cfd8de8583b9aba0dcec85b164a46df6"
+          }
+        },
+        {
+          "client_id": "644001521269-orp9e43cucuk9dh6rtco33q7sn7qljk4.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBV7W42l_uVXq2gHz49mQ_FX-RxoRf4gTA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "644001521269-orp9e43cucuk9dh6rtco33q7sn7qljk4.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
