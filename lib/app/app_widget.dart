@@ -1,6 +1,6 @@
 import 'package:firebase_core/firebase_core.dart';
-import 'package:fit_training/presentation/pages/auth/auth_page.dart';
-import 'package:fit_training/presentation/pages/home/home_page.dart';
+import 'package:fit_training/presentation/pages/splash/splash_page.dart';
+import 'package:fit_training/theme/app_theme.dart';
 import 'package:flutter/material.dart';
 
 class AppWidget extends StatelessWidget {
@@ -15,10 +15,11 @@ class AppWidget extends StatelessWidget {
           return const Text("erro :(");
         }
         if(snapshot.connectionState == ConnectionState.done) {
-          return const MaterialApp(
+          return MaterialApp(
             debugShowCheckedModeBanner: false,
             title: "Fit Training",
-            home: AuthPage(),
+            theme: AppTheme.lightTheme,
+            home: const SplashPage(),
           );
         }
 
