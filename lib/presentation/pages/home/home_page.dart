@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:fit_training/stores/user/user_store.dart';
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
@@ -17,8 +18,8 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
-    return const Scaffold(
-      appBar: AppBarHome(),
+    return Scaffold(
+      appBar: const AppBarHome(),
       // body: Observer(
       //   builder: (context) {
       //     return ListView.builder(
@@ -35,6 +36,35 @@ class _HomePageState extends State<HomePage> {
       //     );
       //   }
       // )
+      body: StreamBuilder<QuerySnapshot>(
+        stream: FirebaseFirestore.instance.collection("user").doc(userStore.user.uid).collection("training").snapshots(),
+          builder: (context, snapshot) {
+            switch (snapshot.connectionState) {
+              case ConnectionState.none:
+              case ConnectionState.waiting:
+                return const Center(
+                    child: CircularProgressIndicator()
+                );
+              default:
+                List<DocumentSnapshot>? docs = snapshot.data!.docs;
+
+                return ListView.builder(
+                  itemCount: docs.length,
+                  itemBuilder: (context, index) {
+                    return ListTile(
+                      title: Text(docs[index].id),
+                      subtitle: Text(docs[index]["abstract"]),
+                      trailing: Icon(Icons.arrow_forward_ios, color: Theme.of(context).primaryColor),
+                      onTap: () async {
+                        FirebaseFirestore.instance.collection("user").doc(userStore.user.uid).collection("training").doc(docs[index].id).snapshots();
+                        //contruir os exercicios
+                      } 
+                    );
+                  },
+                );
+            }
+          },
+      )
     );
   }
 }
