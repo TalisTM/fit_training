@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:fit_training/models/user_entity.dart';
 import 'package:fit_training/presentation/pages/home/home_page.dart';
@@ -37,11 +38,14 @@ class _AuthPageState extends State<AuthPage> {
       final User user = userCredential.user!;
       userStore.setUser(
         UserEntity(
+          uid: user.uid,
           name: user.displayName,
           email: user.email,
           photoUrl: user.photoURL
         )
       );
+
+      FirebaseFirestore.instance.collection("user").doc(userStore.user.uid).set(userStore.user.toMap());
 
       Navigator.pushAndRemoveUntil(
         context,

@@ -25,6 +25,7 @@ class _SplashPageState extends State<SplashPage> {
     FirebaseAuth.instance.authStateChanges().listen((user) {
       userStore.setUser(
         UserEntity(
+          uid: user?.uid,
           name: user?.displayName,
           email: user?.email,
           photoUrl: user?.photoURL
