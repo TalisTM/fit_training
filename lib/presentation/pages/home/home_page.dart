@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:fit_training/presentation/pages/home/widgets/training_tile.dart';
 import 'package:fit_training/stores/user/user_store.dart';
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
@@ -51,15 +52,7 @@ class _HomePageState extends State<HomePage> {
                 return ListView.builder(
                   itemCount: docs.length,
                   itemBuilder: (context, index) {
-                    return ListTile(
-                      title: Text(docs[index].id),
-                      subtitle: Text(docs[index]["abstract"]),
-                      trailing: Icon(Icons.arrow_forward_ios, color: Theme.of(context).primaryColor),
-                      onTap: () async {
-                        FirebaseFirestore.instance.collection("user").doc(userStore.user.uid).collection("training").doc(docs[index].id).snapshots();
-                        //contruir os exercicios
-                      } 
-                    );
+                    return TrainingTile(docs[index]);
                   },
                 );
             }
