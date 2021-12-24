@@ -48,8 +48,9 @@ class _HomePageState extends State<HomePage> {
                 );
               default:
                 List<DocumentSnapshot>? docs = snapshot.data!.docs;
-
                 return ListView.builder(
+                  primary: false,
+                  shrinkWrap: true,
                   itemCount: docs.length,
                   itemBuilder: (context, index) {
                     return TrainingTile(docs[index]);

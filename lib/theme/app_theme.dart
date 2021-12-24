@@ -40,6 +40,16 @@ class AppTheme {
         fontSize: 20,
         fontWeight: FontWeight.w400
       ),
+      headline5: const TextStyle(
+        fontWeight: FontWeight.w600,
+        color: Color(0xFFFF8C00),
+        fontSize: 30 
+      ),
+      headline6: const TextStyle(
+        fontWeight: FontWeight.w600,
+        color: Color(0xFFFF8C00),
+        fontSize: 24 
+      ),
       subtitle1: const TextStyle(
         fontSize: 20
       ),
@@ -47,7 +57,7 @@ class AppTheme {
         fontSize: 18,
         color: Color(0xFFFF8C00),
         fontWeight: FontWeight.w500
-      )
+      ),
     ),
   );
 
