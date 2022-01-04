@@ -1,10 +1,13 @@
-import 'package:fit_training/models/training_entity.dart';
+import 'package:fit_training/models/exercise_entity.dart';
 import 'package:fit_training/presentation/components/widgets/appbar_widget.dart';
+import 'package:fit_training/presentation/components/widgets/button_widget.dart';
 import 'package:fit_training/presentation/components/widgets/text_button_widget.dart';
 import 'package:fit_training/presentation/components/widgets/text_field_widget.dart';
 import 'package:fit_training/presentation/pages/crud_training/widgets/exercise_dialog.dart';
+import 'package:fit_training/stores/training/training_store.dart';
 import 'package:fit_training/stores/user/user_store.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:get_it/get_it.dart';
 
 import 'widgets/crud_exercise_tile.dart';
@@ -19,7 +22,7 @@ class CrudTraining extends StatefulWidget {
 class _CrudTrainingState extends State<CrudTraining> {
 
   final userStore = GetIt.I.get<UserStore>();
-  final newTraining = TrainingEntity();
+  final trainingStore = GetIt.I.get<TrainingStore>();
 
   final TextEditingController _controller = TextEditingController();
 
@@ -35,25 +38,41 @@ class _CrudTrainingState extends State<CrudTraining> {
               label: "Nome do treino",
               controller: _controller
             ),
-            if (newTraining.exercises != null)
-              ListView.builder(
-                itemCount: newTraining.exercises?.length,
-                itemBuilder: (context, index){
-                  return CrudExerciseTile(newTraining.exercises![index]);
-                },
+            if (trainingStore.training.exercises != null)
+              Observer(
+                builder: (context) {
+                  return ListView.builder(
+                    shrinkWrap: true,
+                    primary: false,
+                    itemCount: trainingStore.training.exercises?.length,
+                    itemBuilder: (context, index){
+                      return CrudExerciseTile(trainingStore.training.exercises![index]);
+                    },
+                  );
+                }
               ),
             TextButtonWidget(
               label: "Adicionar Exercicio",
               icon: Icons.add,
-              onPressed: () {
-                showDialog(
+              onPressed: () async {
+                ExerciseEntity? exercise;
+
+                exercise = await showDialog(
                   context: context,
                   builder: (context) => const ExerciseDialog()
                 );
+
+                if(exercise != null) {
+                  trainingStore.addTraining(exercise);
+                }
               }
             )
           ],
         )
+      ),
+      floatingActionButton: ButtonWidget(
+        label: "Adicionar Treino",
+        onPressed: () {}
       )
     );
   }

@@ -1,3 +1,4 @@
+import 'package:fit_training/models/exercise_entity.dart';
 import 'package:fit_training/presentation/components/widgets/button_widget.dart';
 import 'package:fit_training/presentation/components/widgets/text_field_widget.dart';
 import 'package:flutter/material.dart';
@@ -68,7 +69,18 @@ class _ExerciseDialogState extends State<ExerciseDialog> {
             ),
             ButtonWidget(
               label: "Adicionar",
-              onPressed: () {}
+              onPressed: () {
+                //fazer validacoeseeeeeeesssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssss
+                ExerciseEntity exercise = ExerciseEntity(
+                  name: _nameController.text,
+                  serie: _seriecontroller,
+                  repeat: _repeatController.text,
+                  weight: _weightController.text,
+                  check: false
+                );
+
+                Navigator.pop(context, exercise);
+              }
             ),
             const SizedBox(height: 10)
           ],

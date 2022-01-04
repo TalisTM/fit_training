@@ -18,16 +18,12 @@ class _CrudExerciseTileState extends State<CrudExerciseTile> {
       subtitle: Text(
         "${widget.exercise.serie} x ${widget.exercise.repeat} ${widget.exercise.weight != '' ?  '(${widget.exercise.weight})' : ''}"
       ),
-      trailing: Observer(
-        builder: (context) {
-          return Checkbox(
-            value: widget.exercise.check,
-            activeColor: Theme.of(context).primaryColor,
-            onChanged: (value) {
-              
-            },
-          );
-        }
+      trailing: Checkbox(
+        value: widget.exercise.check,
+        activeColor: Theme.of(context).primaryColor,
+        onChanged: (value) {
+          
+        },
       ),
       onTap: () async {
         // var retorno = await showDialog(
