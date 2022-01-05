@@ -10,16 +10,26 @@ abstract class _TrainingStore with Store {
   @observable
   TrainingEntity training = TrainingEntity(
     name: "",
-    exercises: []
+    exercises: ObservableList()
   );
 
   @action
-  setTraining(TrainingEntity temp) {
-    training = temp;
+  setName(String temp) {
+    training.name = temp;
+  }
+  
+  @action
+  addExercise(ExerciseEntity temp) {
+    training.exercises!.add(temp);
   }
 
   @action
-  addTraining(ExerciseEntity temp) {
-    training.exercises!.add(temp);
+  editExercise(ExerciseEntity temp, index) {
+    training.exercises![index] = temp;
+  }
+
+  @action
+  removeExercise(int index) {
+    training.exercises!.removeAt(index);
   }
 }

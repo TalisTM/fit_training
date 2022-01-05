@@ -28,22 +28,44 @@ mixin _$TrainingStore on _TrainingStore, Store {
       ActionController(name: '_TrainingStore');
 
   @override
-  dynamic setTraining(TrainingEntity temp) {
+  dynamic setName(String temp) {
     final _$actionInfo = _$_TrainingStoreActionController.startAction(
-        name: '_TrainingStore.setTraining');
+        name: '_TrainingStore.setName');
     try {
-      return super.setTraining(temp);
+      return super.setName(temp);
     } finally {
       _$_TrainingStoreActionController.endAction(_$actionInfo);
     }
   }
 
   @override
-  dynamic addTraining(ExerciseEntity temp) {
+  dynamic addExercise(ExerciseEntity temp) {
     final _$actionInfo = _$_TrainingStoreActionController.startAction(
-        name: '_TrainingStore.addTraining');
+        name: '_TrainingStore.addExercise');
     try {
-      return super.addTraining(temp);
+      return super.addExercise(temp);
+    } finally {
+      _$_TrainingStoreActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
+  dynamic editExercise(ExerciseEntity temp, dynamic index) {
+    final _$actionInfo = _$_TrainingStoreActionController.startAction(
+        name: '_TrainingStore.editExercise');
+    try {
+      return super.editExercise(temp, index);
+    } finally {
+      _$_TrainingStoreActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
+  dynamic removeExercise(int index) {
+    final _$actionInfo = _$_TrainingStoreActionController.startAction(
+        name: '_TrainingStore.removeExercise');
+    try {
+      return super.removeExercise(index);
     } finally {
       _$_TrainingStoreActionController.endAction(_$actionInfo);
     }

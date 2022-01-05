@@ -1,6 +1,7 @@
 import 'package:fit_training/models/exercise_entity.dart';
 import 'package:fit_training/presentation/components/widgets/appbar_widget.dart';
 import 'package:fit_training/presentation/components/widgets/button_widget.dart';
+import 'package:fit_training/presentation/components/widgets/dialog_widget.dart';
 import 'package:fit_training/presentation/components/widgets/text_button_widget.dart';
 import 'package:fit_training/presentation/components/widgets/text_field_widget.dart';
 import 'package:fit_training/presentation/pages/crud_training/widgets/exercise_dialog.dart';
@@ -25,6 +26,7 @@ class _CrudTrainingState extends State<CrudTraining> {
   final trainingStore = GetIt.I.get<TrainingStore>();
 
   final TextEditingController _controller = TextEditingController();
+  String? _erro;
 
   @override
   Widget build(BuildContext context) {
@@ -36,6 +38,12 @@ class _CrudTrainingState extends State<CrudTraining> {
           children: [
             TextFieldWidget(
               label: "Nome do treino",
+              errorText: _erro,
+              onChanged: (_) {
+                setState(() {
+                  _erro = null;
+                });
+              },
               controller: _controller
             ),
             if (trainingStore.training.exercises != null)
@@ -46,7 +54,7 @@ class _CrudTrainingState extends State<CrudTraining> {
                     primary: false,
                     itemCount: trainingStore.training.exercises?.length,
                     itemBuilder: (context, index){
-                      return CrudExerciseTile(trainingStore.training.exercises![index]);
+                      return CrudExerciseTile(trainingStore.training.exercises![index], index);
                     },
                   );
                 }
@@ -63,7 +71,7 @@ class _CrudTrainingState extends State<CrudTraining> {
                 );
 
                 if(exercise != null) {
-                  trainingStore.addTraining(exercise);
+                  trainingStore.addExercise(exercise);
                 }
               }
             )
@@ -72,7 +80,30 @@ class _CrudTrainingState extends State<CrudTraining> {
       ),
       floatingActionButton: ButtonWidget(
         label: "Adicionar Treino",
-        onPressed: () {}
+        onPressed: () {
+          if(_controller.text.trim().isEmpty) {
+            _erro = "Nome inválido";
+            setState(() {});
+          } else if(trainingStore.training.exercises!.isEmpty) {
+            showDialog(
+              context: context,
+              builder: (context) => DialogWidget(
+                title: "Atenção",
+                subTitle: "Adicione pelo menos um exercício primeiro",
+                primarylabel: "Ok",
+                primaryFunc: () => Navigator.pop(context),
+                secundaryLabel: "",
+                secundaryFunc: () {
+                  
+                }
+              )
+            );
+          } else {
+            trainingStore.setName(_controller.text.trim());
+
+            //adicionar o treino completo no firebaseeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee
+          }
+        }
       )
     );
   }
