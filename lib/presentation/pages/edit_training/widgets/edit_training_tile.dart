@@ -1,6 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:fit_training/presentation/components/widgets/dialog_widget.dart';
-import 'package:fit_training/presentation/pages/training/training_page.dart';
 import 'package:fit_training/stores/user/user_store.dart';
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
@@ -46,6 +45,8 @@ class _EditTrainingTileState extends State<EditTrainingTile> {
         },
       ),
       onTap: () async {
+        //navegar poata a tela de crud_training pasando os dados na classe de TrainingEntityyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyy
+
         //Navigator.push(context, MaterialPageRoute(builder: (context) => TrainingPage(widget.data)));
       } 
     );

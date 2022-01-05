@@ -28,6 +28,28 @@ mixin _$TrainingStore on _TrainingStore, Store {
       ActionController(name: '_TrainingStore');
 
   @override
+  dynamic clear() {
+    final _$actionInfo = _$_TrainingStoreActionController.startAction(
+        name: '_TrainingStore.clear');
+    try {
+      return super.clear();
+    } finally {
+      _$_TrainingStoreActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
+  dynamic setTraining(TrainingEntity temp) {
+    final _$actionInfo = _$_TrainingStoreActionController.startAction(
+        name: '_TrainingStore.setTraining');
+    try {
+      return super.setTraining(temp);
+    } finally {
+      _$_TrainingStoreActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
   dynamic setName(String temp) {
     final _$actionInfo = _$_TrainingStoreActionController.startAction(
         name: '_TrainingStore.setName');

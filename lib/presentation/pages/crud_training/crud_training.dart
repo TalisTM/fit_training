@@ -1,4 +1,5 @@
 import 'package:fit_training/models/exercise_entity.dart';
+import 'package:fit_training/models/training_entity.dart';
 import 'package:fit_training/presentation/components/widgets/appbar_widget.dart';
 import 'package:fit_training/presentation/components/widgets/button_widget.dart';
 import 'package:fit_training/presentation/components/widgets/dialog_widget.dart';
@@ -14,7 +15,8 @@ import 'package:get_it/get_it.dart';
 import 'widgets/crud_exercise_tile.dart';
 
 class CrudTraining extends StatefulWidget {
-  const CrudTraining({ Key? key }) : super(key: key);
+  final TrainingEntity? training;
+  const CrudTraining({this.training, Key? key }) : super(key: key);
 
   @override
   _CrudTrainingState createState() => _CrudTrainingState();
@@ -27,6 +29,16 @@ class _CrudTrainingState extends State<CrudTraining> {
 
   final TextEditingController _controller = TextEditingController();
   String? _erro;
+
+  @override
+  void initState() {
+    super.initState();
+
+    if(widget.training != null) {
+      _controller.text = widget.training!.name!;
+      trainingStore.setTraining(widget.training!);
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -102,6 +114,9 @@ class _CrudTrainingState extends State<CrudTraining> {
             trainingStore.setName(_controller.text.trim());
 
             //adicionar o treino completo no firebaseeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee
+
+            trainingStore.clear();
+            Navigator.pop(context);
           }
         }
       )

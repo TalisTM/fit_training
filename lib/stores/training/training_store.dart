@@ -14,6 +14,19 @@ abstract class _TrainingStore with Store {
   );
 
   @action
+  clear() {
+    training = TrainingEntity(
+      name: "",
+      exercises: ObservableList()
+    );
+  }
+
+  @action
+  setTraining(TrainingEntity temp) {
+    training = temp;
+  }
+
+  @action
   setName(String temp) {
     training.name = temp;
   }
