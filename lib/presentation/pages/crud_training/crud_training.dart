@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:fit_training/models/exercise_entity.dart';
 import 'package:fit_training/models/training_entity.dart';
 import 'package:fit_training/presentation/components/widgets/appbar_widget.dart';
@@ -27,15 +28,17 @@ class _CrudTrainingState extends State<CrudTraining> {
   final userStore = GetIt.I.get<UserStore>();
   final trainingStore = GetIt.I.get<TrainingStore>();
 
-  final TextEditingController _controller = TextEditingController();
-  String? _erro;
+  final TextEditingController _nameController = TextEditingController();
+  final TextEditingController _abstractController = TextEditingController();
+  String? _nameErro;
+  String? _abstractErro;
 
   @override
   void initState() {
     super.initState();
 
     if(widget.training != null) {
-      _controller.text = widget.training!.name!;
+      _nameController.text = widget.training!.name!;
       trainingStore.setTraining(widget.training!);
     }
   }
@@ -50,13 +53,24 @@ class _CrudTrainingState extends State<CrudTraining> {
           children: [
             TextFieldWidget(
               label: "Nome do treino",
-              errorText: _erro,
+              errorText: _nameErro,
               onChanged: (_) {
                 setState(() {
-                  _erro = null;
+                  _nameErro = null;
                 });
               },
-              controller: _controller
+              controller: _nameController
+            ),
+            TextFieldWidget(
+              padding: const EdgeInsets.only(top: 15),
+              label: "Descrição (opcional)",
+              errorText: _abstractErro,
+              onChanged: (_) {
+                setState(() {
+                  _abstractErro = null;
+                });
+              },
+              controller: _abstractController
             ),
             if (trainingStore.training.exercises != null)
               Observer(
@@ -92,9 +106,9 @@ class _CrudTrainingState extends State<CrudTraining> {
       ),
       floatingActionButton: ButtonWidget(
         label: "Adicionar Treino",
-        onPressed: () {
-          if(_controller.text.trim().isEmpty) {
-            _erro = "Nome inválido";
+        onPressed: () async {
+          if(_nameController.text.trim().isEmpty) {
+            _nameErro = "Nome inválido";
             setState(() {});
           } else if(trainingStore.training.exercises!.isEmpty) {
             showDialog(
@@ -111,9 +125,30 @@ class _CrudTrainingState extends State<CrudTraining> {
               )
             );
           } else {
-            trainingStore.setName(_controller.text.trim());
+            trainingStore.setName(_nameController.text.trim());
+            if(_abstractController.text.trim().isNotEmpty) trainingStore.setAbstract(_abstractController.text.trim());
 
-            //adicionar o treino completo no firebaseeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee
+            try {
+              String? id;
+              await FirebaseFirestore.instance.collection("user").doc(userStore.user.uid).collection("training").add(
+                {
+                  "name": trainingStore.training.name,
+                  "abstract": "testee"
+                }
+              ).then((value) {
+                id = value.id;
+              });
+              
+              for (var e in trainingStore.training.exercises!) {
+                FirebaseFirestore.instance.collection("user").doc(userStore.user.uid).collection("training").doc(id).collection("exercises").add(
+                  e.toMap()
+                );
+              }
+            } catch (e) {
+              null;
+            }
+
+            
 
             trainingStore.clear();
             Navigator.pop(context);

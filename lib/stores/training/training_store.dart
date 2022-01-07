@@ -10,6 +10,7 @@ abstract class _TrainingStore with Store {
   @observable
   TrainingEntity training = TrainingEntity(
     name: "",
+    abstract: "",
     exercises: ObservableList()
   );
 
@@ -29,6 +30,11 @@ abstract class _TrainingStore with Store {
   @action
   setName(String temp) {
     training.name = temp;
+  }
+
+  @action
+  setAbstract(String temp) {
+    training.abstract = temp;
   }
   
   @action

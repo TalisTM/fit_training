@@ -109,7 +109,8 @@ class _ExerciseDialogState extends State<ExerciseDialog> {
                     serie: _seriecontroller,
                     repeat: _repeatController.text.trim(),
                     weight: _weightController.text.trim(),
-                    check: false
+                    check: false,
+                    done: 0
                   );
 
                   Navigator.pop(context, exercise);

@@ -25,7 +25,7 @@ class _TrainingTileState extends State<TrainingTile> {
   Widget build(BuildContext context) {
     return ListTile(
       title: Text(widget.data['name']),
-      subtitle: Text(widget.data['abstract']),
+      subtitle: Text(widget.data['abstract'] ?? ""),
       trailing: Icon(Icons.arrow_forward_ios, color: Theme.of(context).primaryColor),
       onTap: () async {
         Navigator.push(context, MaterialPageRoute(builder: (context) => TrainingPage(widget.data)));
