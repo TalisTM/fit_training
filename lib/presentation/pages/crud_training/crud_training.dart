@@ -133,16 +133,17 @@ class _CrudTrainingState extends State<CrudTraining> {
               await FirebaseFirestore.instance.collection("user").doc(userStore.user.uid).collection("training").add(
                 {
                   "name": trainingStore.training.name,
-                  "abstract": "testee"
+                  "abstract": "testee",
+                  "time": Timestamp.now()
                 }
               ).then((value) {
                 id = value.id;
               });
               
               for (var e in trainingStore.training.exercises!) {
-                FirebaseFirestore.instance.collection("user").doc(userStore.user.uid).collection("training").doc(id).collection("exercises").add(
-                  e.toMap()
-                );
+                Map<String, dynamic> exercise = e.toMap();
+                exercise['time'] = Timestamp.now();
+                FirebaseFirestore.instance.collection("user").doc(userStore.user.uid).collection("training").doc(id).collection("exercises").add(exercise);
               }
             } catch (e) {
               null;

@@ -38,7 +38,7 @@ class _HomePageState extends State<HomePage> {
       //   }
       // )
       body: StreamBuilder<QuerySnapshot>(
-        stream: FirebaseFirestore.instance.collection("user").doc(userStore.user.uid).collection("training").snapshots(),
+        stream: FirebaseFirestore.instance.collection("user").doc(userStore.user.uid).collection("training").orderBy("time").snapshots(),
           builder: (context, snapshot) {
             switch (snapshot.connectionState) {
               case ConnectionState.none:

@@ -22,7 +22,7 @@ class _TrainingPageState extends State<TrainingPage> {
     return Scaffold(
       appBar: AppBarWidget(label: widget.data["name"]),
       body: StreamBuilder<QuerySnapshot>(
-        stream: FirebaseFirestore.instance.collection("user").doc(userStore.user.uid).collection("training").doc(widget.data.id).collection("exercises").snapshots(),
+        stream: FirebaseFirestore.instance.collection("user").doc(userStore.user.uid).collection("training").doc(widget.data.id).collection("exercises").orderBy("time").snapshots(),
         builder: (context, snapshot) {
           switch (snapshot.connectionState) {
             case ConnectionState.none:

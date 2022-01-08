@@ -24,7 +24,7 @@ class _EditTrainingState extends State<EditTraining> {
     return Scaffold(
       appBar: const AppBarWidget(label: "Editar Treino"),
       body: StreamBuilder<QuerySnapshot>(
-        stream: FirebaseFirestore.instance.collection("user").doc(userStore.user.uid).collection("training").snapshots(),
+        stream: FirebaseFirestore.instance.collection("user").doc(userStore.user.uid).collection("training").orderBy("time").snapshots(),
         builder: (context, snapshot) {
           switch (snapshot.connectionState) {
             case ConnectionState.none:
@@ -34,25 +34,27 @@ class _EditTrainingState extends State<EditTraining> {
               );
             default:
               List<DocumentSnapshot>? docs = snapshot.data!.docs;
-              return Column(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  ListView.builder(
-                    primary: false,
-                    shrinkWrap: true,
-                    itemCount: docs.length,
-                    itemBuilder: (context, index) {
-                      return EditTrainingTile(docs[index]);
-                    },
-                  ),
-                  TextButtonWidget(
-                    label: "Adicionar treino",
-                    icon: Icons.add,
-                    onPressed: () {
-                      Navigator.push(context, MaterialPageRoute(builder: (context) => const CrudTraining()));
-                    }
-                  )
-                ],
+              return SingleChildScrollView(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    ListView.builder(
+                      primary: false,
+                      shrinkWrap: true,
+                      itemCount: docs.length,
+                      itemBuilder: (context, index) {
+                        return EditTrainingTile(docs[index]);
+                      },
+                    ),
+                    TextButtonWidget(
+                      label: "Adicionar treino",
+                      icon: Icons.add,
+                      onPressed: () {
+                        Navigator.push(context, MaterialPageRoute(builder: (context) => const CrudTraining()));
+                      }
+                    )
+                  ],
+                ),
               );
           }
         },
