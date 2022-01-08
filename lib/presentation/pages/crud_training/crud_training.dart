@@ -100,62 +100,61 @@ class _CrudTrainingState extends State<CrudTraining> {
                   trainingStore.addExercise(exercise);
                 }
               }
+            ),
+            const SizedBox(height: 10),
+            ButtonWidget(
+              label: "Adicionar Treino",
+              onPressed: () async {
+                if(_nameController.text.trim().isEmpty) {
+                  _nameErro = "Nome inválido";
+                  setState(() {});
+                } else if(trainingStore.training.exercises!.isEmpty) {
+                  showDialog(
+                    context: context,
+                    builder: (context) => DialogWidget(
+                      title: "Atenção",
+                      subTitle: "Adicione pelo menos um exercício primeiro",
+                      primarylabel: "Ok",
+                      primaryFunc: () => Navigator.pop(context),
+                      secundaryLabel: "",
+                      secundaryFunc: () {
+                        
+                      }
+                    )
+                  );
+                } else {
+                  trainingStore.setName(_nameController.text.trim());
+                  if(_abstractController.text.trim().isNotEmpty) trainingStore.setAbstract(_abstractController.text.trim());
+
+                  try {
+                    String? id;
+                    await FirebaseFirestore.instance.collection("user").doc(userStore.user.uid).collection("training").add(
+                      {
+                        "name": trainingStore.training.name,
+                        "abstract": "testee",
+                        "time": Timestamp.now()
+                      }
+                    ).then((value) {
+                      id = value.id;
+                    });
+                    
+                    for (var e in trainingStore.training.exercises!) {
+                      Map<String, dynamic> exercise = e.toMap();
+                      exercise['time'] = Timestamp.now();
+                      FirebaseFirestore.instance.collection("user").doc(userStore.user.uid).collection("training").doc(id).collection("exercises").add(exercise);
+                    }
+                  } catch (e) {
+                    null;
+                  }
+                  
+                  trainingStore.clear();
+                  Navigator.pop(context);
+                }
+              }
             )
           ],
         )
       ),
-      floatingActionButton: ButtonWidget(
-        label: "Adicionar Treino",
-        onPressed: () async {
-          if(_nameController.text.trim().isEmpty) {
-            _nameErro = "Nome inválido";
-            setState(() {});
-          } else if(trainingStore.training.exercises!.isEmpty) {
-            showDialog(
-              context: context,
-              builder: (context) => DialogWidget(
-                title: "Atenção",
-                subTitle: "Adicione pelo menos um exercício primeiro",
-                primarylabel: "Ok",
-                primaryFunc: () => Navigator.pop(context),
-                secundaryLabel: "",
-                secundaryFunc: () {
-                  
-                }
-              )
-            );
-          } else {
-            trainingStore.setName(_nameController.text.trim());
-            if(_abstractController.text.trim().isNotEmpty) trainingStore.setAbstract(_abstractController.text.trim());
-
-            try {
-              String? id;
-              await FirebaseFirestore.instance.collection("user").doc(userStore.user.uid).collection("training").add(
-                {
-                  "name": trainingStore.training.name,
-                  "abstract": "testee",
-                  "time": Timestamp.now()
-                }
-              ).then((value) {
-                id = value.id;
-              });
-              
-              for (var e in trainingStore.training.exercises!) {
-                Map<String, dynamic> exercise = e.toMap();
-                exercise['time'] = Timestamp.now();
-                FirebaseFirestore.instance.collection("user").doc(userStore.user.uid).collection("training").doc(id).collection("exercises").add(exercise);
-              }
-            } catch (e) {
-              null;
-            }
-
-            
-
-            trainingStore.clear();
-            Navigator.pop(context);
-          }
-        }
-      )
     );
   }
 }

@@ -38,14 +38,26 @@ class _EditTrainingState extends State<EditTraining> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                    ListView.builder(
-                      primary: false,
-                      shrinkWrap: true,
-                      itemCount: docs.length,
-                      itemBuilder: (context, index) {
-                        return EditTrainingTile(docs[index]);
-                      },
-                    ),
+                    if (docs.isEmpty)
+                      Center(
+                        child: Padding(
+                          padding: const EdgeInsets.all(20),
+                          child: Text(
+                            "Nenhum treino cadastrado",
+                            textAlign: TextAlign.center,
+                            style: Theme.of(context).textTheme.bodyText1,
+                          ),
+                        ),
+                      ),
+                    if (docs.isNotEmpty)
+                      ListView.builder(
+                        primary: false,
+                        shrinkWrap: true,
+                        itemCount: docs.length,
+                        itemBuilder: (context, index) {
+                          return EditTrainingTile(docs[index]);
+                        },
+                      ),
                     TextButtonWidget(
                       label: "Adicionar treino",
                       icon: Icons.add,

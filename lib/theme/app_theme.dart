@@ -58,6 +58,11 @@ class AppTheme {
         color: Color(0xFFFF8C00),
         fontWeight: FontWeight.w500
       ),
+      bodyText1: TextStyle(
+        fontWeight: FontWeight.w600, 
+        color: Colors.grey[700],
+        fontSize: 26 
+      ),
     ),
   );
 

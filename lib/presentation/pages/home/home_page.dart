@@ -21,22 +21,6 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: const AppBarHome(),
-      // body: Observer(
-      //   builder: (context) {
-      //     return ListView.builder(
-      //       padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-      //       itemCount: trainingStore.treino['series'].length,
-      //       itemBuilder: (context, index) {
-      //         return Card(
-      //           margin: const EdgeInsets.symmetric(vertical: 10),
-      //           child: TrainingTile(
-      //             indexSerie: index
-      //           )
-      //         );
-      //       },
-      //     );
-      //   }
-      // )
       body: StreamBuilder<QuerySnapshot>(
         stream: FirebaseFirestore.instance.collection("user").doc(userStore.user.uid).collection("training").orderBy("time").snapshots(),
           builder: (context, snapshot) {
@@ -48,14 +32,25 @@ class _HomePageState extends State<HomePage> {
                 );
               default:
                 List<DocumentSnapshot>? docs = snapshot.data!.docs;
-                return ListView.builder(
-                  primary: false,
-                  shrinkWrap: true,
-                  itemCount: docs.length,
-                  itemBuilder: (context, index) {
-                    return TrainingTile(docs[index]);
-                  },
-                );
+                if (docs.isEmpty) {
+                  return Center(
+                    child: Padding(
+                      padding: const EdgeInsets.all(20),
+                      child: Text(
+                        "Nenhum treino cadastrado",
+                        textAlign: TextAlign.center,
+                        style: Theme.of(context).textTheme.bodyText1,
+                      ),
+                    ),
+                  );
+                } else {
+                  return ListView.builder(
+                    itemCount: docs.length,
+                    itemBuilder: (context, index) {
+                      return TrainingTile(docs[index]);
+                    },
+                  );
+                }
             }
           },
       )
