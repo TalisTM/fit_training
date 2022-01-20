@@ -21,6 +21,7 @@ class _CrudExerciseTileState extends State<CrudExerciseTile> {
   @override
   Widget build(BuildContext context) {
     return ListTile(
+      contentPadding: const EdgeInsets.symmetric(horizontal: 5),
       title: Text(widget.exercise.name!),
       subtitle: Text(
         "${widget.exercise.serie} x ${widget.exercise.repeat} ${widget.exercise.weight != '' ?  '(${widget.exercise.weight})' : ''}"

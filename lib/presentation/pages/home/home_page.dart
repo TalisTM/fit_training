@@ -28,7 +28,7 @@ class _HomePageState extends State<HomePage> {
               case ConnectionState.none:
               case ConnectionState.waiting:
                 return const Center(
-                    child: CircularProgressIndicator()
+                  child: CircularProgressIndicator()
                 );
               default:
                 List<DocumentSnapshot>? docs = snapshot.data!.docs;

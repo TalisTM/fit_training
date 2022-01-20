@@ -10,7 +10,7 @@ class AbstractData extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       child: Container(
-        height: 100,
+        height: 70,
         margin: const EdgeInsets.symmetric(horizontal: 20),
         padding: const EdgeInsets.all(15),
         decoration: BoxDecoration(
@@ -27,27 +27,29 @@ class AbstractData extends StatelessWidget {
         ),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceAround,
+          crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
             Text(
-              "Finalizados",
+              "Editar",
+              textAlign: TextAlign.center,
               style: Theme.of(context).textTheme.headline5,
             ),
-            Row(
-              children: [
-                Expanded(
-                  child: LinearProgressIndicator(
-                    backgroundColor: Colors.grey[300],
-                    valueColor: AlwaysStoppedAnimation<Color>(Theme.of(context).primaryColor),
-                    value: 21 / 40, //colocar vquantidade treinada e quantidade limite de treino que pode ser configirada no perfil
-                  ),
-                ),
-                const SizedBox(width: 10),
-                Text(
-                  "21/40",                                              //aqui tbm manooo
-                  style: Theme.of(context).textTheme.subtitle2,
-                )
-              ],
-            )
+            // Row(
+            //   children: [
+            //     Expanded(
+            //       child: LinearProgressIndicator(
+            //         backgroundColor: Colors.grey[300],
+            //         valueColor: AlwaysStoppedAnimation<Color>(Theme.of(context).primaryColor),
+            //         value: 21 / 40, //colocar vquantidade treinada e quantidade limite de treino que pode ser configirada no perfil
+            //       ),
+            //     ),
+            //     const SizedBox(width: 10),
+            //     Text(
+            //       "21/40",                                              //aqui tbm manooo
+            //       style: Theme.of(context).textTheme.subtitle2,
+            //     )
+            //   ],
+            // )
           ],
         )
       ),

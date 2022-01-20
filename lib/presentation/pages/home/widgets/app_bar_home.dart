@@ -22,48 +22,60 @@ class AppBarHome extends StatelessWidget implements PreferredSizeWidget {
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            InkWell(
-              child: Container(
-                color: Theme.of(context).primaryColor,
-                child: Column(
-                  children: [
-                    const SizedBox(height: 30),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceAround,
-                      children: [
-                        Text.rich(
-                          TextSpan(
-                            text: "Olá, ",
-                            style: Theme.of(context).textTheme.headline4,
-                            children: [
-                              TextSpan(
-                                text: userStore.user.name,
-                                style: Theme.of(context).textTheme.headline3
+            Container(
+              color: Theme.of(context).primaryColor,
+              child: Column(
+                children: [
+                  const SizedBox(height: 20),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Row(
+                        children: [
+                          Container(
+                            margin: const EdgeInsets.only(left: 15),
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(10),
+                              image: DecorationImage(
+                                image: NetworkImage(userStore.user.photoUrl!)
                               )
-                            ]
-                          )
-                        ),
-                        Container(
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(10),
-                            image: DecorationImage(
-                              image: NetworkImage(userStore.user.photoUrl!)
+                            ),
+                            height: 50,
+                            width: 50,
+                          ),
+                          const SizedBox(width: 15),
+                          Text.rich(
+                            TextSpan(
+                              text: "Olá, ",
+                              style: Theme.of(context).textTheme.headline4,
+                              children: [
+                                TextSpan(
+                                  text: userStore.user.name,
+                                  style: Theme.of(context).textTheme.headline3
+                                )
+                              ]
                             )
                           ),
-                          height: 50,
-                          width: 50,
-                        ),
-                      ],
-                    ),
-                    const SizedBox(height: 15)
-                  ],
-                )
-              ),
-              //onTap: () => Navigator.push(context, MaterialPageRoute(builder: (context) => const ProfilePage())),
+                        ],
+                      ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.end,
+                        children: [
+                          IconButton(
+                            icon: const Icon(Icons.logout_outlined, color: Colors.white, size: 30,),
+                            onPressed: () {},
+                          )
+                        ],
+                      ),
+                    ],
+                  ),
+                  const SizedBox(height: 15)
+                ],
+              )
             ),
             Container(
               color: Theme.of(context).primaryColor,
-              height: 30
+              height: 10
             ),
             Stack(
               children: [

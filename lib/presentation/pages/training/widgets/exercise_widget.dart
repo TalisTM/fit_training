@@ -1,10 +1,14 @@
+import 'dart:async';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:fit_training/presentation/components/widgets/text_field_widget.dart';
+import 'package:fit_training/stores/user/user_store.dart';
 import 'package:flutter/material.dart';
+import 'package:get_it/get_it.dart';
 
 class ExerciseWidget extends StatefulWidget {
-  final DocumentSnapshot exercise;
-  const ExerciseWidget(this.exercise, {Key? key }) : super(key: key);
+  final DocumentSnapshot data;
+  const ExerciseWidget(this.data, {Key? key }) : super(key: key);
 
   @override
   _ExerciseWidgetState createState() => _ExerciseWidgetState();
@@ -14,18 +18,25 @@ class _ExerciseWidgetState extends State<ExerciseWidget> {
 
   final TextEditingController _weightController = TextEditingController();
 
-  bool rest = false;
+  Timer? timer;
+  int conter = 0;
 
-  int time = 40;
-  int timer = 40;
+  int done = 0;
+
+  final userStore = GetIt.I.get<UserStore>();
+
+  DocumentSnapshot? exercise;
 
   @override
-  void initState() {
+  void initState() {    
     super.initState();
-    time = 40;
-    timer = 40;
+    exercise = widget.data;
 
-    _weightController.text = widget.exercise["weight"];
+    widget.data.reference.snapshots().listen((e) {
+        exercise = e;
+      });
+
+    _weightController.text = exercise!["weight"];
   }
 
   @override
@@ -44,28 +55,90 @@ class _ExerciseWidgetState extends State<ExerciseWidget> {
             IconButton(
               icon: Icon(Icons.close, color: Theme.of(context).primaryColor, size: 30),
               onPressed: () {
-                if(widget.exercise['done'] == widget.exercise['repeat']) {
-                  //mudar a caixa para trueeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee
-                  //widget.exercise["check"] = true;
+                if(done == exercise!['repeat']) {
+                  widget.data.reference.update(
+                    {
+                      "check": true
+                    }
+                  );
                 }
+                if(timer != null) timer!.cancel();
                 Navigator.pop(context);
               }
             ),
             Text(
-              widget.exercise['name'],
+              exercise!['name'],
               textAlign: TextAlign.center,
               style: Theme.of(context).textTheme.headline6,
             ),
             const SizedBox(height: 4),
             Text(
-              "${widget.exercise['repeat']} x (${widget.exercise['serie']})",
+              "${exercise!['serie']} x (${exercise!['repeat']})",
               style: Theme.of(context).textTheme.subtitle1,
             ),
             const SizedBox(height: 15),
-            if(rest)
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                IconButton(
+                  padding: EdgeInsets.zero,
+                  icon: Icon(Icons.remove_circle, color: Theme.of(context).primaryColor, size: 40),
+                  onPressed: () {
+                    if(done > 0) {
+                      done--;
+                      if(timer != null) timer!.cancel();
+                      conter = 0;
+                      setState(() {});
+                    }
+                  },
+                ),
+                Text(done.toString(), style: Theme.of(context).textTheme.subtitle1),
+                IconButton(
+                  padding: EdgeInsets.zero,
+                  icon: Icon(Icons.add_circle, color: Theme.of(context).primaryColor, size: 40),
+                  onPressed: () async {
+                    if(done == exercise!['serie']) {
+                      if(timer != null) timer!.cancel();
+                      Navigator.pop(context, true);
+                      widget.data.reference.update(
+                        {
+                          "check": true
+                        }
+                      );
+
+                    } else if(done < exercise!['serie']) {
+                      done++;
+                      setState(() {});
+
+                      conter = 40;
+                      if(timer != null) timer!.cancel();
+                      timer = Timer.periodic(const Duration(seconds: 1), (timer) {
+                        setState(() {
+                          if(conter > 0) {
+                            conter--;
+                          } else {
+                            timer.cancel();
+                          }
+                        });
+
+                        if(done >= exercise!['serie'] && conter == 0) {
+                          timer.cancel();
+                          Navigator.pop(context, true);
+                          widget.data.reference.update(
+                            {
+                              "check": true
+                            }
+                          );
+                        }
+                      });
+                    }
+                  }
+                )
+              ],
+            ),
             Column(
               children: [
-                Text("Descanso:", style: Theme.of(context).textTheme.subtitle1),
+                //Text("Descanso:", style: Theme.of(context).textTheme.subtitle1),
                 Container(
                   margin: const EdgeInsets.symmetric(vertical: 10),
                   height: 70,
@@ -79,74 +152,15 @@ class _ExerciseWidgetState extends State<ExerciseWidget> {
                           strokeWidth: 10,
                           backgroundColor: Colors.grey[300],
                           valueColor: AlwaysStoppedAnimation<Color>(Theme.of(context).primaryColor),
-                          value: timer / time,
+                          value: conter / 40,
                         ),
                       ),
                       Center(
-                        child: Text("00:${timer.toString().padLeft(2, "0")}", style: Theme.of(context).textTheme.subtitle2),
+                        child: Text("${conter.toString()}s", style: Theme.of(context).textTheme.subtitle2),
                       )
                     ],
                   ),
                 ),
-              ],
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                IconButton(
-                  padding: EdgeInsets.zero,
-                  icon: Icon(Icons.remove_circle, color: Theme.of(context).primaryColor, size: 40),
-                  onPressed: () {
-                    if(widget.exercise["done"] > 0) {
-                      setState(() {
-                        rest = false;
-                      });
-                      //-1 no doneeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee
-                      //widget.exercise["done"] = widget.exercise["done"] - 1;
-                    }
-                  },
-                ),
-                Text(widget.exercise['done'].toString(), style: Theme.of(context).textTheme.subtitle1),
-                IconButton(
-                  padding: EdgeInsets.zero,
-                  icon: Icon(Icons.add_circle, color: Theme.of(context).primaryColor, size: 40),
-                  onPressed: () async {
-                    if(widget.exercise['done'] == widget.exercise['repeat']) {
-                      Navigator.pop(context, true);
-                      //true no checkkkkkkkkkkkkkkkkkkkkkkkkkkkkkjkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkk
-                      //widget.exercise["check"] = true;
-
-                    } else if(widget.exercise['done'] < widget.exercise['repeat']) {
-                      setState(() {
-                        timer = time;
-                      });
-                      // +1  no dfoneeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee
-                      //widget.exercise['done']++;
-
-                      if(!rest) {
-                        timer = time;
-                        setState(() {
-                          rest = true;
-                        });
-                        while(timer > 0) {
-                          await Future.delayed(const Duration(seconds: 1)).then((value) {
-                            setState(() {
-                              timer--;
-                            });
-                          });
-                        }
-                        setState(() {
-                          rest = false;
-                          if(widget.exercise['done'] >= widget.exercise['repeat']) {
-                            Navigator.pop(context, true);
-                            //check trueeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee
-                            //widget.exercise['check'] = true;
-                          }
-                        });
-                      }
-                    }
-                  }
-                )
               ],
             ),
             TextFieldWidget(
@@ -154,12 +168,15 @@ class _ExerciseWidgetState extends State<ExerciseWidget> {
               label: "Peso",
               controller: _weightController,
               onChanged: (text) {
-                //colocar o pesooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooo
-                //widget.exercise['weight'] = text;
+                widget.data.reference.update(
+                  {
+                    "weight": text
+                  }
+                );
               },
-            )
+            ),
           ],
-        ),
+        )
       )
     );
   }

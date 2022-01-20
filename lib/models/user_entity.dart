@@ -5,12 +5,14 @@ class UserEntity {
   String? name;
   String? email;
   String? photoUrl;
+  int? qtdTraining;
   
   UserEntity({
     this.uid,
     this.name,
     this.email,
     this.photoUrl,
+    this.qtdTraining,
   });
 
   UserEntity copyWith({
@@ -18,12 +20,14 @@ class UserEntity {
     String? name,
     String? email,
     String? photoUrl,
+    int? qtdTraining,
   }) {
     return UserEntity(
       uid: uid ?? this.uid,
       name: name ?? this.name,
       email: email ?? this.email,
       photoUrl: photoUrl ?? this.photoUrl,
+      qtdTraining: qtdTraining ?? this.qtdTraining,
     );
   }
 
@@ -42,6 +46,9 @@ class UserEntity {
     if(photoUrl != null){
       result.addAll({'photoUrl': photoUrl});
     }
+    if(qtdTraining != null){
+      result.addAll({'qtdTraining': qtdTraining});
+    }
   
     return result;
   }
@@ -52,6 +59,7 @@ class UserEntity {
       name: map['name'],
       email: map['email'],
       photoUrl: map['photoUrl'],
+      qtdTraining: map['qtdTraining']?.toInt(),
     );
   }
 
@@ -61,7 +69,7 @@ class UserEntity {
 
   @override
   String toString() {
-    return 'UserEntity(uid: $uid, name: $name, email: $email, photoUrl: $photoUrl)';
+    return 'UserEntity(uid: $uid, name: $name, email: $email, photoUrl: $photoUrl, qtdTraining: $qtdTraining)';
   }
 
   @override
@@ -72,7 +80,8 @@ class UserEntity {
       other.uid == uid &&
       other.name == name &&
       other.email == email &&
-      other.photoUrl == photoUrl;
+      other.photoUrl == photoUrl &&
+      other.qtdTraining == qtdTraining;
   }
 
   @override
@@ -80,6 +89,7 @@ class UserEntity {
     return uid.hashCode ^
       name.hashCode ^
       email.hashCode ^
-      photoUrl.hashCode;
+      photoUrl.hashCode ^
+      qtdTraining.hashCode;
   }
 }

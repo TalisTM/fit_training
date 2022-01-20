@@ -41,7 +41,8 @@ class _AuthPageState extends State<AuthPage> {
           uid: user.uid,
           name: user.displayName,
           email: user.email,
-          photoUrl: user.photoURL
+          photoUrl: user.photoURL,
+          qtdTraining: 0
         )
       );
 

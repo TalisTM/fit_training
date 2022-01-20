@@ -6,7 +6,6 @@ class ExerciseEntity {
   String? repeat;
   bool? check;
   String? weight;
-  int? done;
   
   ExerciseEntity({
     this.name,
@@ -14,7 +13,6 @@ class ExerciseEntity {
     this.repeat,
     this.check,
     this.weight,
-    required this.done,
   });
 
   ExerciseEntity copyWith({
@@ -23,7 +21,6 @@ class ExerciseEntity {
     String? repeat,
     bool? check,
     String? weight,
-    int? done,
   }) {
     return ExerciseEntity(
       name: name ?? this.name,
@@ -31,7 +28,6 @@ class ExerciseEntity {
       repeat: repeat ?? this.repeat,
       check: check ?? this.check,
       weight: weight ?? this.weight,
-      done: done ?? this.done,
     );
   }
 
@@ -53,9 +49,6 @@ class ExerciseEntity {
     if(weight != null){
       result.addAll({'weight': weight});
     }
-    if(done != null){
-      result.addAll({'done': done});
-    }
   
     return result;
   }
@@ -67,7 +60,6 @@ class ExerciseEntity {
       repeat: map['repeat'],
       check: map['check'],
       weight: map['weight'],
-      done: map['done']?.toInt(),
     );
   }
 
@@ -77,7 +69,7 @@ class ExerciseEntity {
 
   @override
   String toString() {
-    return 'ExerciseEntity(name: $name, serie: $serie, repeat: $repeat, check: $check, weight: $weight, done: $done)';
+    return 'ExerciseEntity(name: $name, serie: $serie, repeat: $repeat, check: $check, weight: $weight)';
   }
 
   @override
@@ -89,8 +81,7 @@ class ExerciseEntity {
       other.serie == serie &&
       other.repeat == repeat &&
       other.check == check &&
-      other.weight == weight &&
-      other.done == done;
+      other.weight == weight;
   }
 
   @override
@@ -99,7 +90,6 @@ class ExerciseEntity {
       serie.hashCode ^
       repeat.hashCode ^
       check.hashCode ^
-      weight.hashCode ^
-      done.hashCode;
+      weight.hashCode;
   }
 }

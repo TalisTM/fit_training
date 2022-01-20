@@ -23,7 +23,11 @@ class _ExerciseTileState extends State<ExerciseTile> {
         value: widget.data["check"],
         activeColor: Theme.of(context).primaryColor,
         onChanged: (value) {
-          
+          widget.data.reference.update(
+            {
+              "check": value
+            }
+          );
         },
       ),
       onTap: () async {
@@ -33,8 +37,11 @@ class _ExerciseTileState extends State<ExerciseTile> {
           builder: (context) => ExerciseWidget(widget.data)
         );
         if(retorno != null && retorno) {
-          //true no dataaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
-          //widget.data['check'] = true;
+          widget.data.reference.update(
+            {
+              "check": true
+            }
+          );
         }
       },
     );
