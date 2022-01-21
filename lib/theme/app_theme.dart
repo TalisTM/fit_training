@@ -43,7 +43,7 @@ class AppTheme {
       headline5: const TextStyle(
         fontWeight: FontWeight.w600,
         color: Color(0xFFFF8C00),
-        fontSize: 30 
+        fontSize: 26 
       ),
       headline6: const TextStyle(
         fontWeight: FontWeight.w600,
@@ -62,6 +62,11 @@ class AppTheme {
         fontWeight: FontWeight.w600, 
         color: Colors.grey[700],
         fontSize: 26 
+      ),
+      bodyText2: TextStyle(
+        fontWeight: FontWeight.w600, 
+        color: Colors.grey[600],
+        fontSize: 18 
       ),
     ),
   );

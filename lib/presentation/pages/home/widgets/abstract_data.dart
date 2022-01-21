@@ -25,31 +25,18 @@ class AbstractData extends StatelessWidget {
             ),
           ],
         ),
-        child: Column(
+        child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceAround,
-          crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
             Text(
-              "Editar",
+              "Editar".toUpperCase(),
               textAlign: TextAlign.center,
               style: Theme.of(context).textTheme.headline5,
             ),
-            // Row(
-            //   children: [
-            //     Expanded(
-            //       child: LinearProgressIndicator(
-            //         backgroundColor: Colors.grey[300],
-            //         valueColor: AlwaysStoppedAnimation<Color>(Theme.of(context).primaryColor),
-            //         value: 21 / 40, //colocar vquantidade treinada e quantidade limite de treino que pode ser configirada no perfil
-            //       ),
-            //     ),
-            //     const SizedBox(width: 10),
-            //     Text(
-            //       "21/40",                                              //aqui tbm manooo
-            //       style: Theme.of(context).textTheme.subtitle2,
-            //     )
-            //   ],
-            // )
+            Text(
+              "20 Feitos",
+              style: Theme.of(context).textTheme.bodyText2, 
+            )
           ],
         )
       ),

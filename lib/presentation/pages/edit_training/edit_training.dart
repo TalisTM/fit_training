@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:fit_training/presentation/components/widgets/appbar_widget.dart';
+import 'package:fit_training/presentation/components/widgets/button_widget.dart';
 import 'package:fit_training/presentation/components/widgets/text_button_widget.dart';
 import 'package:fit_training/presentation/pages/crud_training/crud_training.dart';
 import 'package:fit_training/stores/user/user_store.dart';
@@ -22,7 +23,25 @@ class _EditTrainingState extends State<EditTraining> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: const AppBarWidget(label: "Editar Treino"),
+      appBar: AppBar(
+        title: const Text("Editar Treino"),
+        leading: IconButton(
+          icon: const Icon(Icons.arrow_back_ios),
+          onPressed: () => Navigator.pop(context),
+        ),
+        actions: [
+          PopupMenuButton(
+            itemBuilder: (context) => [
+              PopupMenuItem(
+                child: const Text("Zerar número de feitos"),
+                onTap: () {
+                  //ja sabe neh lekk
+                }
+              )
+            ]
+          )
+        ],
+      ),
       body: StreamBuilder<QuerySnapshot>(
         stream: FirebaseFirestore.instance.collection("user").doc(userStore.user.uid).collection("training").orderBy("time").snapshots(),
         builder: (context, snapshot) {

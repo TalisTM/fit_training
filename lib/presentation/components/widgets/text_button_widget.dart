@@ -21,7 +21,7 @@ class TextButtonWidget extends StatelessWidget {
         children: [
           if (icon != null)
             Icon(
-              Icons.add,
+              icon,
               size: 30,
               color: Theme.of(context).primaryColor,
             ),
