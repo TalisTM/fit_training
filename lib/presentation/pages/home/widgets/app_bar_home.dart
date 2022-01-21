@@ -1,3 +1,5 @@
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:fit_training/presentation/pages/auth/auth_page.dart';
 import 'package:fit_training/stores/user/user_store.dart';
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
@@ -63,7 +65,10 @@ class AppBarHome extends StatelessWidget implements PreferredSizeWidget {
                         children: [
                           IconButton(
                             icon: const Icon(Icons.logout_outlined, color: Colors.white, size: 30,),
-                            onPressed: () {},
+                            onPressed: () async {
+                              await FirebaseAuth.instance.signOut();
+                              Navigator.push(context, MaterialPageRoute(builder: (context) => const AuthPage()));
+                            },
                           )
                         ],
                       ),
