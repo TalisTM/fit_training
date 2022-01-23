@@ -46,6 +46,10 @@ class _AuthPageState extends State<AuthPage> {
         )
       );
 
+      FirebaseFirestore.instance.collection("user").where({"uid": userStore.user.uid}).get().then((v) {
+        //verificar se o usuario ja está cadastrtadooooooooooooooooooooooooooooooooooooooooooooooooooo
+      });
+      
       FirebaseFirestore.instance.collection("user").doc(userStore.user.uid).set(userStore.user.toMap());
 
       Navigator.pushAndRemoveUntil(

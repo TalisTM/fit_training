@@ -96,7 +96,7 @@ class AppBarHome extends StatelessWidget implements PreferredSizeWidget {
                     ),
                   ],
                 ),
-                const AbstractData()
+                AbstractData()
               ],
             )
           ],

@@ -54,13 +54,15 @@ class _TrainingPageState extends State<TrainingPage> {
               builder: (context) => DialogWidget(
                 title: "Finalizar treino",
                 subTitle: "Tem certeza que deseja finalizar este treino?",
-                primarylabel: "Sim",
+                primarylabel: "Confirmar",
                 secundaryLabel: "Cancelar",
                 primaryFunc: () {
-                  FirebaseFirestore.instance.collection("user").doc(userStore.user.uid).update({"qtdTraining": userStore.user.qtdTraining! + 1});
-
-                  Navigator.pop(context);
-                  Navigator.pop(context);
+                  DocumentReference<Map<String, dynamic>> refecence = FirebaseFirestore.instance.collection("user").doc(userStore.user.uid);
+                  refecence.get().then((v) {
+                    refecence.update({"qtdTraining": v.data()?["qtdTraining"] + 1});
+                    Navigator.pop(context);
+                    Navigator.pop(context);
+                  });
                 },
                 secundaryFunc: () => Navigator.pop(context)
               )

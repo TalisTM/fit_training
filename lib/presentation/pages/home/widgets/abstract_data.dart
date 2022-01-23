@@ -1,10 +1,18 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:fit_training/presentation/pages/edit_training/edit_training.dart';
+import 'package:fit_training/stores/user/user_store.dart';
 import 'package:flutter/material.dart';
+import 'package:get_it/get_it.dart';
 
-class AbstractData extends StatelessWidget {
-  const AbstractData({
-    Key? key,
-    }) : super(key: key);
+class AbstractData extends StatefulWidget {
+  const AbstractData({Key? key}) : super(key: key);
+
+  @override
+  State<AbstractData> createState() => _AbstractDataState();
+}
+
+class _AbstractDataState extends State<AbstractData> {
+  final userStore = GetIt.I.get<UserStore>();
 
   @override
   Widget build(BuildContext context) {
@@ -33,9 +41,20 @@ class AbstractData extends StatelessWidget {
               textAlign: TextAlign.center,
               style: Theme.of(context).textTheme.headline5,
             ),
-            Text(
-              "20 Feitos",
-              style: Theme.of(context).textTheme.bodyText2, 
+            StreamBuilder<DocumentSnapshot<Map<String, dynamic>>>(
+              stream: FirebaseFirestore.instance.collection("user").doc(userStore.user.uid).snapshots(),
+              builder: (context, snapshot) {
+                switch (snapshot.connectionState) {
+                  case ConnectionState.waiting:
+                  case ConnectionState.none:
+                    return const Center(child: CircularProgressIndicator());
+                  default:
+                    return Text(
+                      "${snapshot.data?["qtdTraining"]} Feitos", 
+                      style: Theme.of(context).textTheme.bodyText2
+                    );
+                }
+              }
             )
           ],
         )

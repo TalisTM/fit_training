@@ -1,6 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:fit_training/presentation/components/widgets/appbar_widget.dart';
-import 'package:fit_training/presentation/components/widgets/button_widget.dart';
+import 'package:fit_training/presentation/components/widgets/dialog_widget.dart';
 import 'package:fit_training/presentation/components/widgets/text_button_widget.dart';
 import 'package:fit_training/presentation/pages/crud_training/crud_training.dart';
 import 'package:fit_training/stores/user/user_store.dart';
@@ -35,7 +34,22 @@ class _EditTrainingState extends State<EditTraining> {
               PopupMenuItem(
                 child: const Text("Zerar número de feitos"),
                 onTap: () {
-                  //ja sabe neh lekk
+                  Navigator.pop(context);
+                  showDialog(
+                    context: context,
+                    builder: (context) => DialogWidget(
+                      title: "Atenção",
+                      subTitle: "Tem certeza que deseja zerar o número de treinos feitos",
+                      primarylabel: "Confirmar",
+                      secundaryLabel: "Cancelar",
+                      primaryFunc: () {
+                        FirebaseFirestore.instance.collection("user").doc(userStore.user.uid).update({"qtdTraining": 0});
+                        Navigator.pop(context);
+                      },
+                      secundaryFunc: () => Navigator.pop(context)
+                    )
+                  );
+                  Navigator.push(context, MaterialPageRoute(builder: (context) => const CrudTraining())); //provisórioooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooo
                 }
               )
             ]
