@@ -1,4 +1,5 @@
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:fit_training/presentation/components/widgets/dialog_widget.dart';
 import 'package:fit_training/presentation/pages/auth/auth_page.dart';
 import 'package:fit_training/stores/user/user_store.dart';
 import 'package:flutter/material.dart';
@@ -65,9 +66,21 @@ class AppBarHome extends StatelessWidget implements PreferredSizeWidget {
                         children: [
                           IconButton(
                             icon: Icon(Icons.logout_outlined, color: Theme.of(context).splashColor, size: 30,),
-                            onPressed: () async {
-                              await FirebaseAuth.instance.signOut();
-                              Navigator.push(context, MaterialPageRoute(builder: (context) => const AuthPage()));
+                            onPressed: () {
+                              showDialog(
+                                context: context,
+                                builder: (context) => DialogWidget(
+                                  title: "Atenção",
+                                  subTitle: "Tem certeza que deseja deslogar do aplicativo?",
+                                  primarylabel: "Confirmar",
+                                  secundaryLabel: "Cancelar",
+                                  primaryFunc: () async {
+                                    await FirebaseAuth.instance.signOut();
+                                    Navigator.push(context, MaterialPageRoute(builder: (context) => const AuthPage()));
+                                  }, 
+                                  secundaryFunc: () => Navigator.pop(context)
+                                )
+                              );
                             },
                           )
                         ],
