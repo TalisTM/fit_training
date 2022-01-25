@@ -4,6 +4,7 @@ import 'package:fit_training/stores/user/user_store.dart';
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 import 'widgets/app_bar_home.dart';
+import 'package:animated_card/animated_card.dart';
 
 class HomePage extends StatefulWidget {
 
@@ -44,12 +45,16 @@ class _HomePageState extends State<HomePage> {
                     ),
                   );
                 } else {
-                  return ListView.builder(
-                    padding: const EdgeInsets.symmetric(horizontal: 10),
-                    itemCount: docs.length,
-                    itemBuilder: (context, index) {
-                      return TrainingTile(docs[index]);
-                    },
+                  return AnimatedCard(
+                    direction: AnimatedCardDirection.left,
+                    duration: const Duration(milliseconds: 400),
+                    child: ListView.builder(
+                      padding: const EdgeInsets.symmetric(horizontal: 10),
+                      itemCount: docs.length,
+                      itemBuilder: (context, index) {
+                        return TrainingTile(docs[index]);
+                      },
+                    ),
                   );
                 }
             }
