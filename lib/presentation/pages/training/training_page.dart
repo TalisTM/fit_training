@@ -35,12 +35,12 @@ class _TrainingPageState extends State<TrainingPage> {
             default:
               List<DocumentSnapshot>? docs = snapshot.data!.docs;
               return ListView.builder(
+                physics: const BouncingScrollPhysics(),
                 itemCount: docs.length,
                 itemBuilder: (context, index) {
                   return ExerciseTile(docs[index]);
                 }
               );
-              //return ExerciseTile();
           }
         }
       ),

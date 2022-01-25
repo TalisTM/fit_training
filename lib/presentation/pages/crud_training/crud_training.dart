@@ -48,6 +48,7 @@ class _CrudTrainingState extends State<CrudTraining> {
     return Scaffold(
       appBar: const AppBarWidget(label: "Adicionar Treino"),
       body: SingleChildScrollView(
+        physics: const BouncingScrollPhysics(),
         padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
         child: Column(
           children: [

@@ -69,6 +69,7 @@ class _EditTrainingState extends State<EditTraining> {
             default:
               List<DocumentSnapshot>? docs = snapshot.data!.docs;
               return SingleChildScrollView(
+                physics: const BouncingScrollPhysics(),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [

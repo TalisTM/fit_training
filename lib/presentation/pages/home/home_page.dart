@@ -49,6 +49,7 @@ class _HomePageState extends State<HomePage> {
                     direction: AnimatedCardDirection.left,
                     duration: const Duration(milliseconds: 400),
                     child: ListView.builder(
+                      physics: const BouncingScrollPhysics(),
                       padding: const EdgeInsets.symmetric(horizontal: 10),
                       itemCount: docs.length,
                       itemBuilder: (context, index) {
