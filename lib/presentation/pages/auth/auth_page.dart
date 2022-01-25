@@ -77,7 +77,7 @@ class _AuthPageState extends State<AuthPage> {
               textAlign: TextAlign.center, 
               style: Theme.of(context).textTheme.headline1,
             ),
-            Image.asset("assets/images/logo_google.png", height: 150),
+            Image.asset("assets/images/icon.png", height: 250),
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
