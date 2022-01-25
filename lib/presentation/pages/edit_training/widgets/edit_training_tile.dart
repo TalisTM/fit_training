@@ -23,33 +23,36 @@ class _EditTrainingTileState extends State<EditTrainingTile> {
 
   @override
   Widget build(BuildContext context) {
-    return ListTile(
-      title: Text(widget.data['name']),
-      subtitle: Text(widget.data['abstract'] ?? ""),
-      trailing: IconButton(
-        icon: const Icon(Icons.delete, color: Colors.red),
-        onPressed: () {
-          showDialog(
-            context: context,
-            builder: (context) => DialogWidget(
-              title: "Atenção",
-              subTitle: "Deseja apagar este treino?",
-              primarylabel: "Confirmar",
-              secundaryLabel: "Cancelar",
-              primaryFunc: () {
-                FirebaseFirestore.instance.collection("user").doc(userStore.user.uid).collection("training").doc(widget.data.id).delete();
-                Navigator.pop(context);
-              },
-              secundaryFunc: () => Navigator.pop(context)
-            )
-          );
-        },
-      ),
-      // onTap: () async {
-      //   //navegar poata a tela de crud_training pasando os dados na classe de TrainingEntityyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyy
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 5),
+      child: ListTile(
+        title: Text(widget.data['name']),
+        subtitle: Text(widget.data['abstract'] ?? ""),
+        trailing: IconButton(
+          icon: const Icon(Icons.delete, color: Colors.red),
+          onPressed: () {
+            showDialog(
+              context: context,
+              builder: (context) => DialogWidget(
+                title: "Atenção",
+                subTitle: "Deseja apagar este treino?",
+                primarylabel: "Confirmar",
+                secundaryLabel: "Cancelar",
+                primaryFunc: () {
+                  FirebaseFirestore.instance.collection("user").doc(userStore.user.uid).collection("training").doc(widget.data.id).delete();
+                  Navigator.pop(context);
+                },
+                secundaryFunc: () => Navigator.pop(context)
+              )
+            );
+          },
+        ),
+        // onTap: () async {
+        //   //navegar poata a tela de crud_training pasando os dados na classe de TrainingEntityyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyy
 
-      //   //Navigator.push(context, MaterialPageRoute(builder: (context) => TrainingPage(widget.data)));
-      // } 
+        //   //Navigator.push(context, MaterialPageRoute(builder: (context) => TrainingPage(widget.data)));
+        // } 
+      ),
     );
   }
 }

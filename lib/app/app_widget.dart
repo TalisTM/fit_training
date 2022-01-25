@@ -19,6 +19,7 @@ class AppWidget extends StatelessWidget {
             debugShowCheckedModeBanner: false,
             title: "Fit Training",
             theme: AppTheme.lightTheme,
+            darkTheme: AppTheme.darkTheme,
             home: const SplashPage(),
           );
         }

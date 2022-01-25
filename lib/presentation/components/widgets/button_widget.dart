@@ -15,10 +15,7 @@ class ButtonWidget extends StatelessWidget {
     return TextButton(
       child: Text(
         label,
-        style: const TextStyle(
-          color: Colors.white,
-          fontSize: 22
-        ),
+        style: Theme.of(context).textTheme.button,
       ),
       style: ButtonStyle(
         backgroundColor: MaterialStateProperty.all<Color>(Theme.of(context).primaryColor),

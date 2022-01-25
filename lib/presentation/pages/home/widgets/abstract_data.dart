@@ -22,11 +22,11 @@ class _AbstractDataState extends State<AbstractData> {
         margin: const EdgeInsets.symmetric(horizontal: 20),
         padding: const EdgeInsets.all(15),
         decoration: BoxDecoration(
-          color: Colors.white,
+          color: Theme.of(context).splashColor,
           borderRadius: BorderRadius.circular(15),
           boxShadow: [
             BoxShadow(
-              color: Colors.grey.withOpacity(0.5),
+              color: const Color(0xFF393E46).withOpacity(0.5),
               spreadRadius: 3,
               blurRadius: 10,
               offset: const Offset(0, 4),

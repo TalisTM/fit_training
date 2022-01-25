@@ -64,7 +64,7 @@ class AppBarHome extends StatelessWidget implements PreferredSizeWidget {
                         mainAxisAlignment: MainAxisAlignment.end,
                         children: [
                           IconButton(
-                            icon: const Icon(Icons.logout_outlined, color: Colors.white, size: 30,),
+                            icon: Icon(Icons.logout_outlined, color: Theme.of(context).splashColor, size: 30,),
                             onPressed: () async {
                               await FirebaseAuth.instance.signOut();
                               Navigator.push(context, MaterialPageRoute(builder: (context) => const AuthPage()));
@@ -91,12 +91,12 @@ class AppBarHome extends StatelessWidget implements PreferredSizeWidget {
                       height: 50, 
                     ),
                     Container(
-                      color: Colors.white,
+                      color: Theme.of(context).backgroundColor,
                       height: 50,
                     ),
                   ],
                 ),
-                AbstractData()
+                const AbstractData()
               ],
             )
           ],

@@ -20,41 +20,44 @@ class _CrudExerciseTileState extends State<CrudExerciseTile> {
 
   @override
   Widget build(BuildContext context) {
-    return ListTile(
-      contentPadding: const EdgeInsets.symmetric(horizontal: 5),
-      title: Text(widget.exercise.name!),
-      subtitle: Text(
-        "${widget.exercise.serie} x ${widget.exercise.repeat} ${widget.exercise.weight != '' ?  '(${widget.exercise.weight})' : ''}"
-      ),
-      trailing: IconButton(
-        icon: const Icon(Icons.delete, color: Colors.red),
-        onPressed: () {
-          showDialog(
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 3),
+      child: ListTile(
+        contentPadding: const EdgeInsets.only(left: 10),
+        title: Text(widget.exercise.name!),
+        subtitle: Text(
+          "${widget.exercise.serie} x ${widget.exercise.repeat} ${widget.exercise.weight != '' ?  '(${widget.exercise.weight})' : ''}"
+        ),
+        trailing: IconButton(
+          icon: const Icon(Icons.delete, color: Colors.red),
+          onPressed: () {
+            showDialog(
+              context: context,
+              builder: (context) => DialogWidget(
+                title: "Atenção",
+                subTitle: "Deseja apagar este exercicio?",
+                primarylabel: "Confirmar",
+                secundaryLabel: "Cancelar",
+                primaryFunc: () {
+                  trainingStore.removeExercise(widget.index);
+                  Navigator.pop(context);
+                },
+                secundaryFunc: () => Navigator.pop(context)
+              )
+            );
+          },
+        ),
+        onTap: () async {
+          ExerciseEntity? exercise = await showDialog(
             context: context,
-            builder: (context) => DialogWidget(
-              title: "Atenção",
-              subTitle: "Deseja apagar este exercicio?",
-              primarylabel: "Confirmar",
-              secundaryLabel: "Cancelar",
-              primaryFunc: () {
-                trainingStore.removeExercise(widget.index);
-                Navigator.pop(context);
-              },
-              secundaryFunc: () => Navigator.pop(context)
-            )
+            builder: (context) => ExerciseDialog(exercise: widget.exercise)
           );
+
+          if(exercise != null) {
+            trainingStore.editExercise(exercise, widget.index);
+          }
         },
       ),
-      onTap: () async {
-        ExerciseEntity? exercise = await showDialog(
-          context: context,
-          builder: (context) => ExerciseDialog(exercise: widget.exercise)
-        );
-
-        if(exercise != null) {
-          trainingStore.editExercise(exercise, widget.index);
-        }
-      },
     );
   }
 }

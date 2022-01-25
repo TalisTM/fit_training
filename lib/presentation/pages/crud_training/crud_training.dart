@@ -72,7 +72,7 @@ class _CrudTrainingState extends State<CrudTraining> {
               },
               controller: _abstractController
             ),
-            const SizedBox(height: 5),
+            const SizedBox(height: 10),
             if (trainingStore.training.exercises != null)
               Observer(
                 builder: (context) {
@@ -112,7 +112,7 @@ class _CrudTrainingState extends State<CrudTraining> {
           borderRadius: BorderRadius.circular(10)
         ),
         label: Text("Adicionar treino", style: Theme.of(context).textTheme.headline3),
-        icon: const Icon(Icons.add, size: 28),
+        icon: Icon(Icons.add, size: 28, color: Theme.of(context).backgroundColor),
         onPressed: () async {
           if(_nameController.text.trim().isEmpty) {
             _nameErro = "Nome inválido";

@@ -45,6 +45,7 @@ class _HomePageState extends State<HomePage> {
                   );
                 } else {
                   return ListView.builder(
+                    padding: const EdgeInsets.symmetric(horizontal: 10),
                     itemCount: docs.length,
                     itemBuilder: (context, index) {
                       return TrainingTile(docs[index]);

@@ -14,36 +14,39 @@ class ExerciseTile extends StatefulWidget {
 class _ExerciseTileState extends State<ExerciseTile> {
   @override
   Widget build(BuildContext context) {
-    return ListTile(
-      title: Text(widget.data['name']),
-      subtitle: Text(
-        "${widget.data["serie"]} x ${widget.data["repeat"]} ${widget.data["weight"] != '' ?  '(${widget.data["weight"]})' : ''}"
-      ),
-      trailing: Checkbox(
-        value: widget.data["check"],
-        activeColor: Theme.of(context).primaryColor,
-        onChanged: (value) {
-          widget.data.reference.update(
-            {
-              "check": value
-            }
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 2, horizontal: 10),
+      child: ListTile(
+        title: Text(widget.data['name']),
+        subtitle: Text(
+          "${widget.data["serie"]} x ${widget.data["repeat"]} ${widget.data["weight"] != '' ?  '(${widget.data["weight"]})' : ''}"
+        ),
+        trailing: Checkbox(
+          value: widget.data["check"],
+          activeColor: Theme.of(context).primaryColor,
+          onChanged: (value) {
+            widget.data.reference.update(
+              {
+                "check": value
+              }
+            );
+          },
+        ),
+        onTap: () async {
+          var retorno = await showDialog(
+            context: context,
+            barrierDismissible: false,
+            builder: (context) => ExerciseWidget(widget.data)
           );
+          if(retorno != null && retorno) {
+            widget.data.reference.update(
+              {
+                "check": true
+              }
+            );
+          }
         },
       ),
-      onTap: () async {
-        var retorno = await showDialog(
-          context: context,
-          barrierDismissible: false,
-          builder: (context) => ExerciseWidget(widget.data)
-        );
-        if(retorno != null && retorno) {
-          widget.data.reference.update(
-            {
-              "check": true
-            }
-          );
-        }
-      },
     );
   }
 }

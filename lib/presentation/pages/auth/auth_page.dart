@@ -46,9 +46,11 @@ class _AuthPageState extends State<AuthPage> {
         )
       );
 
-      FirebaseFirestore.instance.collection("user").where({"uid": userStore.user.uid}).get().then((v) {
-        //verificar se o usuario ja está cadastrtadooooooooooooooooooooooooooooooooooooooooooooooooooo
-      });
+      // FirebaseFirestore.instance.collection("user").where({"uid": userStore.user.uid}).get().then((v) {
+      //   List<QueryDocumentSnapshot<Map<String, dynamic>>> docs =  v.docs;
+      //   print(docs);
+      // });
+
       
       FirebaseFirestore.instance.collection("user").doc(userStore.user.uid).set(userStore.user.toMap());
 

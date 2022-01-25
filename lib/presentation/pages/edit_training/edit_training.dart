@@ -30,6 +30,7 @@ class _EditTrainingState extends State<EditTraining> {
         ),
         actions: [
           PopupMenuButton(
+            color: Theme.of(context).backgroundColor,
             itemBuilder: (context) => [
               PopupMenuItem(
                 child: const Text("Zerar número de feitos"),
@@ -84,6 +85,7 @@ class _EditTrainingState extends State<EditTraining> {
                       ),
                     if (docs.isNotEmpty)
                       ListView.builder(
+                        padding: const EdgeInsets.symmetric(horizontal: 10),
                         primary: false,
                         shrinkWrap: true,
                         itemCount: docs.length,

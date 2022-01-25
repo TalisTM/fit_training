@@ -53,7 +53,7 @@ class TextFieldWidget extends StatelessWidget {
             borderSide: const BorderSide(color: Colors.red)
           ),
           labelStyle: TextStyle(
-            color: Colors.grey[700]
+            color: Theme.of(context).cardColor
           )
         )
       ),
