@@ -5,6 +5,7 @@ import 'package:fit_training/presentation/pages/home/home_page.dart';
 import 'package:fit_training/stores/user/user_store.dart';
 import 'package:fit_training/utils/is_logged.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart';
 import 'package:get_it/get_it.dart';
 
 class SplashPage extends StatefulWidget {
@@ -17,11 +18,12 @@ class SplashPage extends StatefulWidget {
 class _SplashPageState extends State<SplashPage> {
 
   final userStore = GetIt.I.get<UserStore>();
-
+  bool isDarkMode = false;
   @override
   void initState() {
-    super.initState();
-    
+    super.initState();    
+    var brightness = SchedulerBinding.instance!.window.platformBrightness;
+    isDarkMode = brightness == Brightness.dark;
     FirebaseAuth.instance.authStateChanges().listen((user) {
       userStore.setUser(
         UserEntity(
@@ -44,9 +46,14 @@ class _SplashPageState extends State<SplashPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Image.asset(
-      'assets/images/splash.png',
-      fit: BoxFit.cover,
-    );
+    return isDarkMode
+      ? Image.asset(
+        'assets/images/splash-dark.png',
+        fit: BoxFit.cover,
+      )
+      : Image.asset(
+        'assets/images/splash.png',
+        fit: BoxFit.cover,
+      );
   }
 }
