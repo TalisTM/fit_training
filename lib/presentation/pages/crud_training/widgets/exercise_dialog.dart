@@ -14,7 +14,7 @@ class ExerciseDialog extends StatefulWidget {
 class _ExerciseDialogState extends State<ExerciseDialog> {
 
   final TextEditingController _nameController = TextEditingController();
-  int _seriecontroller = 1;
+  int _seriecontroller = 3;
   final TextEditingController _repeatController = TextEditingController();
   final TextEditingController _weightController = TextEditingController();
 
