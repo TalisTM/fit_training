@@ -18,13 +18,11 @@ class _AbstractDataState extends State<AbstractData> {
 
   @override
   Widget build(BuildContext context) {
-    return AnimatedCard(
-      direction: AnimatedCardDirection.top,
-      duration: const Duration(milliseconds: 400),
-      child: GestureDetector(
+    return GestureDetector(
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 20),
         child: Container(
           height: 70,
-          margin: const EdgeInsets.symmetric(horizontal: 20),
           padding: const EdgeInsets.all(15),
           decoration: BoxDecoration(
             color: Theme.of(context).splashColor,
@@ -38,36 +36,40 @@ class _AbstractDataState extends State<AbstractData> {
               ),
             ],
           ),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceAround,
-            children: [
-              Text(
-                "Editar".toUpperCase(),
-                textAlign: TextAlign.center,
-                style: Theme.of(context).textTheme.headline5,
-              ),
-              StreamBuilder<DocumentSnapshot<Map<String, dynamic>>>(
-                stream: FirebaseFirestore.instance.collection("user").doc(userStore.user.uid).snapshots(),
-                builder: (context, snapshot) {
-                  switch (snapshot.connectionState) {
-                    case ConnectionState.waiting:
-                    case ConnectionState.none:
-                      return const Center(child: CircularProgressIndicator());
-                    default:
-                      return Text(
-                        "${snapshot.data?["qtdTraining"]} Feitos", 
-                        style: Theme.of(context).textTheme.bodyText2
-                      );
+          child: AnimatedCard(
+            direction: AnimatedCardDirection.top,
+            duration: const Duration(milliseconds: 500),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: [
+                Text(
+                  "Editar".toUpperCase(),
+                  textAlign: TextAlign.center,
+                  style: Theme.of(context).textTheme.headline5,
+                ),
+                StreamBuilder<DocumentSnapshot<Map<String, dynamic>>>(
+                  stream: FirebaseFirestore.instance.collection("user").doc(userStore.user.uid).snapshots(),
+                  builder: (context, snapshot) {
+                    switch (snapshot.connectionState) {
+                      case ConnectionState.waiting:
+                      case ConnectionState.none:
+                        return const Center(child: CircularProgressIndicator());
+                      default:
+                        return Text(
+                          "${snapshot.data?["qtdTraining"]} Feitos", 
+                          style: Theme.of(context).textTheme.bodyText2
+                        );
+                    }
                   }
-                }
-              )
-            ],
+                )
+              ],
+            ),
           )
         ),
-        onTap: () {
-          Navigator.push(context, MaterialPageRoute(builder: (context) => const EditTraining()));
-        }
       ),
+      onTap: () {
+        Navigator.push(context, MaterialPageRoute(builder: (context) => const EditTraining()));
+      }
     );
   }
 }
