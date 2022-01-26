@@ -4,6 +4,7 @@ var primaryColorApp = const Color(0xFFFD7014);
 var backgroundDark = const Color(0xFF222831);
 var darkColor = const Color(0xFF393E46);
 var white = const Color(0xFFFFFFFF);
+var darkGrey = const Color(0xFF262626);
 var grey = const Color(0xFF404040);
 var lightGrey = const Color(0xFFcccccc);
 
@@ -15,6 +16,7 @@ class AppTheme {
     splashColor: white,
     hintColor: lightGrey,
     cardColor: grey,
+    dividerColor: lightGrey,
     appBarTheme: AppBarTheme(
       titleTextStyle: TextStyle(
         color: primaryColorApp,
@@ -90,6 +92,7 @@ class AppTheme {
     hintColor: backgroundDark,
     cardColor: lightGrey,
     splashColor: darkColor,
+    dividerColor: grey,
     scaffoldBackgroundColor: backgroundDark,
     appBarTheme: AppBarTheme(
       titleTextStyle: TextStyle(

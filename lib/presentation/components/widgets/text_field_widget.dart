@@ -4,6 +4,7 @@ import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
 class TextFieldWidget extends StatelessWidget {
 
   final String label;
+  final String? hintText;
   final TextEditingController controller;
   final List<MaskTextInputFormatter>? formatters;
   final bool obscureText;
@@ -16,6 +17,7 @@ class TextFieldWidget extends StatelessWidget {
     Key? key,
     required this.label,
     required this.controller,
+    this.hintText,
     this.formatters,
     this.obscureText = false,
     this.keyboardType,
@@ -35,6 +37,8 @@ class TextFieldWidget extends StatelessWidget {
         inputFormatters: formatters,
         onChanged: onChanged,
         decoration: InputDecoration(
+          hintText: hintText,
+          hintStyle: TextStyle(color: Theme.of(context).dividerColor),
           errorText: errorText,
           label: Text(label),
           border: OutlineInputBorder(

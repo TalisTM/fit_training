@@ -54,6 +54,7 @@ class _CrudTrainingState extends State<CrudTraining> {
           children: [
             TextFieldWidget(
               label: "Nome do treino",
+              hintText: "Ex. Treino A",
               errorText: _nameErro,
               onChanged: (_) {
                 setState(() {
@@ -65,6 +66,7 @@ class _CrudTrainingState extends State<CrudTraining> {
             TextFieldWidget(
               padding: const EdgeInsets.only(top: 15),
               label: "Descrição (opcional)",
+              hintText: "Ex. Peito e tríceps",
               errorText: _abstractErro,
               onChanged: (_) {
                 setState(() {

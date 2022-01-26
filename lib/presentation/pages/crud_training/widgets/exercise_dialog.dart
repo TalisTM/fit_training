@@ -44,6 +44,7 @@ class _ExerciseDialogState extends State<ExerciseDialog> {
             TextFieldWidget(
               padding: const EdgeInsets.only(top: 15, bottom: 15),
               label: "Nome",
+              hintText: "Ex. Supino reto",
               errorText: _nameError,
               onChanged: (_) {
                 setState(() {
@@ -82,6 +83,7 @@ class _ExerciseDialogState extends State<ExerciseDialog> {
             TextFieldWidget(
               padding: const EdgeInsets.only(top: 15),
               label: "Repetições",
+              hintText: "Ex. 8 - 12",
               errorText: _repeatError,
               onChanged: (_) {
                 setState(() {
@@ -93,6 +95,7 @@ class _ExerciseDialogState extends State<ExerciseDialog> {
             TextFieldWidget(
               padding: const EdgeInsets.only(top: 15, bottom: 15),
               label: "Peso (opcional)",
+              hintText: "Ex. 25",
               controller: _weightController
             ),
             ButtonWidget(
