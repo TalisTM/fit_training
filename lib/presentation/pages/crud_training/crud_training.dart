@@ -143,7 +143,7 @@ class _CrudTrainingState extends State<CrudTraining> {
               await FirebaseFirestore.instance.collection("user").doc(userStore.user.uid).collection("training").add(
                 {
                   "name": trainingStore.training.name,
-                  "abstract": "testee",
+                  "abstract": _abstractController.text.trim(),
                   "time": Timestamp.now()
                 }
               ).then((value) {
