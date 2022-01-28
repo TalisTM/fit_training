@@ -52,3 +52,32 @@ abstract class _TrainingStore with Store {
     training.exercises!.removeAt(index);
   }
 }
+
+
+// import 'package:fit_training/models/exercise_entity.dart';
+// import 'package:fit_training/models/training_entity.dart';
+// import 'package:mobx/mobx.dart';
+// part 'training_store.g.dart';
+
+// class TrainingStore = _TrainingStore with _$TrainingStore;
+
+// abstract class _TrainingStore with Store {
+
+//   @observable
+//   List<TrainingEntity> training = ObservableList();
+
+//   @action
+//   add(TrainingEntity temp) {
+//     training.add(temp);
+//   }
+
+//   @action
+//   delete(int index) {
+//     training.removeAt(index);
+//   }
+  
+//   @action
+//   edit(TrainingEntity temp, index) {
+//     training[index] = temp;
+//   }
+// }

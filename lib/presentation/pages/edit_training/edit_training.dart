@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:fit_training/models/training_entity.dart';
 import 'package:fit_training/presentation/components/widgets/dialog_widget.dart';
 import 'package:fit_training/presentation/components/widgets/text_button_widget.dart';
 import 'package:fit_training/presentation/pages/crud_training/crud_training.dart';
@@ -57,7 +58,7 @@ class _EditTrainingState extends State<EditTraining> {
           )
         ],
       ),
-      body: StreamBuilder<QuerySnapshot>(
+      body: StreamBuilder<QuerySnapshot<Map<String, dynamic>>>(
         stream: FirebaseFirestore.instance.collection("user").doc(userStore.user.uid).collection("training").orderBy("time").snapshots(),
         builder: (context, snapshot) {
           switch (snapshot.connectionState) {
@@ -67,7 +68,7 @@ class _EditTrainingState extends State<EditTraining> {
                   child: CircularProgressIndicator()
               );
             default:
-              List<DocumentSnapshot>? docs = snapshot.data!.docs;
+              List<DocumentSnapshot<Map<String, dynamic>>>? docs = snapshot.data!.docs;
               return SingleChildScrollView(
                 physics: const BouncingScrollPhysics(),
                 child: Column(
@@ -91,7 +92,8 @@ class _EditTrainingState extends State<EditTraining> {
                         shrinkWrap: true,
                         itemCount: docs.length,
                         itemBuilder: (context, index) {
-                          return EditTrainingTile(docs[index]);
+                          TrainingEntity training = TrainingEntity.fromMap(docs[index].data()!);
+                          return EditTrainingTile(training, docs[index].id);
                         },
                       ),
                     TextButtonWidget(

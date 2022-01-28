@@ -61,6 +61,17 @@ mixin _$TrainingStore on _TrainingStore, Store {
   }
 
   @override
+  dynamic setAbstract(String temp) {
+    final _$actionInfo = _$_TrainingStoreActionController.startAction(
+        name: '_TrainingStore.setAbstract');
+    try {
+      return super.setAbstract(temp);
+    } finally {
+      _$_TrainingStoreActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
   dynamic addExercise(ExerciseEntity temp) {
     final _$actionInfo = _$_TrainingStoreActionController.startAction(
         name: '_TrainingStore.addExercise');
