@@ -36,29 +36,37 @@ class _AuthPageState extends State<AuthPage> {
       final UserCredential userCredential = await FirebaseAuth.instance.signInWithCredential(credential);
 
       final User user = userCredential.user!;
-      userStore.setUser(
-        UserEntity(
-          uid: user.uid,
-          name: user.displayName,
-          email: user.email,
-          photoUrl: user.photoURL,
-          qtdTraining: 0
-        )
-      );
-
-      // FirebaseFirestore.instance.collection("user").where({"uid": userStore.user.uid}).get().then((v) {
-      //   List<QueryDocumentSnapshot<Map<String, dynamic>>> docs =  v.docs;
-      //   print(docs);
-      // });
-
       
-      FirebaseFirestore.instance.collection("user").doc(userStore.user.uid).set(userStore.user.toMap());
+      bool existe = false;
+      await FirebaseFirestore.instance.collection("user").get().then((v) {
+        List<QueryDocumentSnapshot<Map<String, dynamic>>> docs =  v.docs;
+        for (var u in docs) {
+          if(u.data()['uid'] == user.uid) {
+            existe = true;
+          }
+        }
+      });
+
+      userStore.setUser(
+          UserEntity(
+            uid: user.uid,
+            name: user.displayName,
+            email: user.email,
+            photoUrl: user.photoURL,
+            qtdTraining: 0
+          )
+        );
+
+      if (!existe) {
+        FirebaseFirestore.instance.collection("user").doc(userStore.user.uid).set(userStore.user.toMap());
+      }
 
       Navigator.pushAndRemoveUntil(
         context,
         MaterialPageRoute(builder: (context) => const HomePage()),
         (route) => false
       );
+
     } catch (e) {
       return null;
     }
