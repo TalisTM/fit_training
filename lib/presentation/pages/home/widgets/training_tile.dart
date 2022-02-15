@@ -1,14 +1,14 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:fit_training/models/training_entity.dart';
 import 'package:fit_training/presentation/pages/training/training_page.dart';
 import 'package:fit_training/stores/user/user_store.dart';
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 
 class TrainingTile extends StatefulWidget {
-  final DocumentSnapshot data;
+  final TrainingEntity training;
 
   const TrainingTile(
-    this.data,
+    this.training,
     {
     Key? key
     }) : super(key: key);
@@ -26,11 +26,11 @@ class _TrainingTileState extends State<TrainingTile> {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 5),
       child: ListTile(
-        title: Text(widget.data['name']),
-        subtitle: Text(widget.data['abstract'] ?? ""),
+        title: Text(widget.training.name!),
+        subtitle: Text(widget.training.abstract ?? ""),
         trailing: Icon(Icons.arrow_forward_ios, color: Theme.of(context).primaryColor),
         onTap: () async {
-          Navigator.push(context, MaterialPageRoute(builder: (context) => TrainingPage(widget.data)));
+          Navigator.push(context, MaterialPageRoute(builder: (context) => TrainingPage(widget.training)));
           // bool hasTraining = false;
           // trainingStore.treino['series'][indexSerie]['exercise'].forEach((exercise) {
           //   if(exercise['check'] || exercise['done'] != 0) {

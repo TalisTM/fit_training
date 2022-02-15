@@ -1,14 +1,15 @@
 import 'dart:async';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:fit_training/models/exercise_entity.dart';
 import 'package:fit_training/presentation/components/widgets/text_field_widget.dart';
 import 'package:fit_training/stores/user/user_store.dart';
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 
 class ExerciseWidget extends StatefulWidget {
-  final DocumentSnapshot data;
-  const ExerciseWidget(this.data, {Key? key }) : super(key: key);
+  final ExerciseEntity exercise;
+  const ExerciseWidget(this.exercise, {Key? key }) : super(key: key);
 
   @override
   _ExerciseWidgetState createState() => _ExerciseWidgetState();
@@ -25,18 +26,10 @@ class _ExerciseWidgetState extends State<ExerciseWidget> {
 
   final userStore = GetIt.I.get<UserStore>();
 
-  DocumentSnapshot? exercise;
-
   @override
   void initState() {    
     super.initState();
-    exercise = widget.data;
-
-    widget.data.reference.snapshots().listen((e) {
-        exercise = e;
-      });
-
-    _weightController.text = exercise!["weight"];
+    _weightController.text = widget.exercise.weight!;
   }
 
   @override
@@ -51,12 +44,8 @@ class _ExerciseWidgetState extends State<ExerciseWidget> {
           IconButton(
             icon: Icon(Icons.close, color: Theme.of(context).primaryColor, size: 35),
             onPressed: () {
-              if(done == exercise!['repeat']) {
-                widget.data.reference.update(
-                  {
-                    "check": true
-                  }
-                );
+              if(done == widget.exercise.serie) {
+                //check trueeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee
               }
               if(timer != null) timer!.cancel();
               Navigator.pop(context);
@@ -73,13 +62,13 @@ class _ExerciseWidgetState extends State<ExerciseWidget> {
               mainAxisSize: MainAxisSize.min,
               children: [
                 Text(
-                  exercise!['name'],
+                  widget.exercise.name!,
                   textAlign: TextAlign.center,
                   style: Theme.of(context).textTheme.headline6,
                 ),
                 const SizedBox(height: 4),
                 Text(
-                  "${exercise!['serie']} x (${exercise!['repeat']})",
+                  "${widget.exercise.serie} x (${widget.exercise.repeat})",
                   style: Theme.of(context).textTheme.subtitle1,
                 ),
                 const SizedBox(height: 15),
@@ -103,16 +92,14 @@ class _ExerciseWidgetState extends State<ExerciseWidget> {
                       padding: EdgeInsets.zero,
                       icon: Icon(Icons.add_circle, color: Theme.of(context).primaryColor, size: 40),
                       onPressed: () async {
-                        if(done == exercise!['serie']) {
+                        if(done == widget.exercise.serie) {
                           if(timer != null) timer!.cancel();
                           Navigator.pop(context, true);
-                          widget.data.reference.update(
-                            {
-                              "check": true
-                            }
-                          );
+                          widget.exercise.check = true;
+                          setState(() {});
+                          //check trueeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee
 
-                        } else if(done < exercise!['serie']) {
+                        } else if(done < widget.exercise.serie!) {
                           done++;
                           setState(() {});
 
@@ -127,14 +114,12 @@ class _ExerciseWidgetState extends State<ExerciseWidget> {
                               }
                             });
 
-                            if(done >= exercise!['serie'] && conter == 0) {
+                            if(done >= widget.exercise.serie! && conter == 0) {
                               timer.cancel();
                               Navigator.pop(context, true);
-                              widget.data.reference.update(
-                                {
-                                  "check": true
-                                }
-                              );
+                              widget.exercise.check = true;
+                              setState(() {});
+                              //check trueeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee
                             }
                           });
                         }
@@ -174,11 +159,9 @@ class _ExerciseWidgetState extends State<ExerciseWidget> {
                   label: "Peso",
                   controller: _weightController,
                   onChanged: (text) {
-                    widget.data.reference.update(
-                      {
-                        "weight": text
-                      }
-                    );
+                    widget.exercise.weight = text;
+                    setState(() {});
+                    //check trueeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee
                   },
                 ),
               ],

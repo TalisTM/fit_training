@@ -1,11 +1,12 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:fit_training/models/exercise_entity.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_mobx/flutter_mobx.dart';
 
 import 'exercise_widget.dart';
 
 class ExerciseTile extends StatefulWidget {
-  final DocumentSnapshot data;
-  const ExerciseTile(this.data, {Key? key }) : super(key: key);
+  final ExerciseEntity exercise;
+  const ExerciseTile(this.exercise, {Key? key}) : super(key: key);
 
   @override
   State<ExerciseTile> createState() => _ExerciseTileState();
@@ -17,33 +18,33 @@ class _ExerciseTileState extends State<ExerciseTile> {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 2, horizontal: 10),
       child: ListTile(
-        title: Text(widget.data['name']),
+        title: Text(widget.exercise.name!),
         subtitle: Text(
-          "${widget.data["serie"]} x ${widget.data["repeat"]} ${widget.data["weight"] != '' ?  '(${widget.data["weight"]})' : ''}"
+          "${widget.exercise.serie} x ${widget.exercise.repeat} ${widget.exercise.weight != '' ?  '(${widget.exercise.weight})' : ''}"
         ),
-        trailing: Checkbox(
-          value: widget.data["check"],
-          activeColor: Theme.of(context).primaryColor,
-          onChanged: (value) {
-            widget.data.reference.update(
-              {
-                "check": value
-              }
+        trailing: Observer(
+          builder: (context) {
+            return Checkbox(
+              value: widget.exercise.check,
+              activeColor: Theme.of(context).primaryColor,
+              onChanged: (value) {
+                widget.exercise.check = value;
+                setState(() {});
+                //check trueeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee
+              },
             );
-          },
+          }
         ),
         onTap: () async {
           var retorno = await showDialog(
             context: context,
             barrierDismissible: false,
-            builder: (context) => ExerciseWidget(widget.data)
+            builder: (context) => ExerciseWidget(widget.exercise)
           );
           if(retorno != null && retorno) {
-            widget.data.reference.update(
-              {
-                "check": true
-              }
-            );
+            widget.exercise.check = true;
+            setState(() {});
+            //check trueeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee
           }
         },
       ),
