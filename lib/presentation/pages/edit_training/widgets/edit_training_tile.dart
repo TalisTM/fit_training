@@ -1,6 +1,3 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:fit_training/models/exercise_entity.dart';
-import 'package:fit_training/models/training_entity.dart';
 import 'package:fit_training/presentation/components/widgets/dialog_widget.dart';
 import 'package:fit_training/presentation/pages/crud_training/crud_training.dart';
 import 'package:fit_training/stores/training/training_store.dart';
@@ -9,11 +6,9 @@ import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 
 class EditTrainingTile extends StatefulWidget {
-  final TrainingEntity training;
-  final String id;
+  final int index;
   const EditTrainingTile(
-    this.training,
-    this.id,
+    this.index,
     {
     Key? key
     }) : super(key: key);
@@ -32,8 +27,8 @@ class _EditTrainingTileState extends State<EditTrainingTile> {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 5),
       child: ListTile(
-        title: Text(widget.training.name ?? ""),
-        subtitle: Text(widget.training.abstract ?? ""),
+        title: Text(trainingStore.training[widget.index].name ?? ""),
+        subtitle: Text(trainingStore.training[widget.index].abstract ?? ""),
         trailing: IconButton(
           icon: const Icon(Icons.delete, color: Colors.red),
           onPressed: () {
@@ -45,7 +40,7 @@ class _EditTrainingTileState extends State<EditTrainingTile> {
                 primarylabel: "Confirmar",
                 secundaryLabel: "Cancelar",
                 primaryFunc: () {
-                  FirebaseFirestore.instance.collection("user").doc(userStore.user.uid).collection("training").doc(widget.id).delete();
+                  trainingStore.training.removeAt(widget.index);
                   Navigator.pop(context);
                 },
                 secundaryFunc: () => Navigator.pop(context)
@@ -54,20 +49,7 @@ class _EditTrainingTileState extends State<EditTrainingTile> {
           },
         ),
         onTap: () async {
-          FirebaseFirestore.instance.collection("user").doc(userStore.user.uid).collection("training").doc(widget.id).collection("exercises").orderBy("time").get().then((exercises) {
-            List<ExerciseEntity> listExercises = [];
-            for (QueryDocumentSnapshot<Map<String, dynamic>> e in exercises.docs) {
-              listExercises.add(ExerciseEntity.fromMap(e.data()));
-            }
-            trainingStore.setTraining(
-              TrainingEntity(
-                name: widget.training.name,
-                abstract: widget.training.abstract,
-                exercises: listExercises
-              )
-            );
-            Navigator.push(context, MaterialPageRoute(builder: (context) => const CrudTraining()));
-          });
+          Navigator.push(context, MaterialPageRoute(builder: (context) => CrudTraining(index: widget.index)));
         } 
       ),
     );

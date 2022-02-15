@@ -7,8 +7,7 @@ import 'package:get_it/get_it.dart';
 
 class CrudExerciseTile extends StatefulWidget {
   final ExerciseEntity exercise;
-  final int index;
-  const CrudExerciseTile(this.exercise, this.index, {Key? key }) : super(key: key);
+  const CrudExerciseTile(this.exercise, {Key? key }) : super(key: key);
 
   @override
   State<CrudExerciseTile> createState() => _CrudExerciseTileState();
@@ -39,8 +38,8 @@ class _CrudExerciseTileState extends State<CrudExerciseTile> {
                 primarylabel: "Confirmar",
                 secundaryLabel: "Cancelar",
                 primaryFunc: () {
-                  trainingStore.removeExercise(widget.index);
-                  Navigator.pop(context);
+                  //trainingStore.removeExercise(widget.index);
+                  // Navigator.pop(context);
                 },
                 secundaryFunc: () => Navigator.pop(context)
               )
@@ -48,13 +47,13 @@ class _CrudExerciseTileState extends State<CrudExerciseTile> {
           },
         ),
         onTap: () async {
-          ExerciseEntity? exercise = await showDialog(
+          ExerciseEntity? retorno = await showDialog(
             context: context,
             builder: (context) => ExerciseDialog(exercise: widget.exercise)
           );
 
-          if(exercise != null) {
-            trainingStore.editExercise(exercise, widget.index);
+          if(retorno != null) {
+            //trainingStore.editExercise(exercise, widget.index);
           }
         },
       ),

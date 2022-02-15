@@ -1,8 +1,6 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:fit_training/models/exercise_entity.dart';
 import 'package:fit_training/models/training_entity.dart';
 import 'package:fit_training/presentation/components/widgets/appbar_widget.dart';
-import 'package:fit_training/presentation/components/widgets/button_widget.dart';
 import 'package:fit_training/presentation/components/widgets/dialog_widget.dart';
 import 'package:fit_training/presentation/components/widgets/text_button_widget.dart';
 import 'package:fit_training/presentation/components/widgets/text_field_widget.dart';
@@ -16,8 +14,8 @@ import 'package:get_it/get_it.dart';
 import 'widgets/crud_exercise_tile.dart';
 
 class CrudTraining extends StatefulWidget {
-  final TrainingEntity? training;
-  const CrudTraining({this.training, Key? key }) : super(key: key);
+  final int? index;
+  const CrudTraining({this.index, Key? key }) : super(key: key);
 
   @override
   _CrudTrainingState createState() => _CrudTrainingState();
@@ -33,20 +31,24 @@ class _CrudTrainingState extends State<CrudTraining> {
   String? _nameErro;
   String? _abstractErro;
 
+  TrainingEntity training = TrainingEntity(
+    exercises: []
+  );
+
   @override
   void initState() {
     super.initState();
 
-    if(widget.training != null) {
-      _nameController.text = widget.training!.name!;
-      trainingStore.setTraining(widget.training!);
+    if(widget.index != null) {
+      training = trainingStore.training[widget.index!].copyWith();
+      _nameController.text = training.name!;
     }
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: const AppBarWidget(label: "Adicionar Treino"),
+      appBar: AppBarWidget(label: widget.index == null ? "Adicionar Treino" : "Editar ${training.name}"),
       body: SingleChildScrollView(
         physics: const BouncingScrollPhysics(),
         padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
@@ -76,18 +78,15 @@ class _CrudTrainingState extends State<CrudTraining> {
               controller: _abstractController
             ),
             const SizedBox(height: 10),
-            if (trainingStore.training.exercises != null)
-              Observer(
-                builder: (context) {
-                  return ListView.builder(
-                    shrinkWrap: true,
-                    primary: false,
-                    itemCount: trainingStore.training.exercises?.length,
-                    itemBuilder: (context, index){
-                      return CrudExerciseTile(trainingStore.training.exercises![index], index);
-                    },
-                  );
-                }
+            if (training.exercises != null)
+              ListView.builder(
+                shrinkWrap: true,
+                primary: false,
+                itemCount: training.exercises?.length,
+                itemBuilder: (context, index){
+                  return exerciseTile(index);
+                  //return CrudExerciseTile(training.exercises![index]);
+                },
               ),
             TextButtonWidget(
               label: "Adicionar Exercicio",
@@ -101,7 +100,8 @@ class _CrudTrainingState extends State<CrudTraining> {
                 );
 
                 if(exercise != null) {
-                  trainingStore.addExercise(exercise);
+                  training.exercises!.add(exercise);
+                  setState(() {});
                 }
               }
             ),
@@ -114,13 +114,13 @@ class _CrudTrainingState extends State<CrudTraining> {
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(10)
         ),
-        label: Text("Adicionar treino", style: Theme.of(context).textTheme.headline3),
+        label: Text(widget.index == null ? "Adicionar Treino" : "Editar Treino", style: Theme.of(context).textTheme.headline3),
         icon: Icon(Icons.add, size: 28, color: Theme.of(context).backgroundColor),
         onPressed: () async {
           if(_nameController.text.trim().isEmpty) {
             _nameErro = "Nome inválido";
             setState(() {});
-          } else if(trainingStore.training.exercises!.isEmpty) {
+          } else if(training.exercises == null || training.exercises!.isEmpty) {
             showDialog(
               context: context,
               builder: (context) => DialogWidget(
@@ -135,34 +135,84 @@ class _CrudTrainingState extends State<CrudTraining> {
               )
             );
           } else {
-            trainingStore.setName(_nameController.text.trim());
-            if(_abstractController.text.trim().isNotEmpty) trainingStore.setAbstract(_abstractController.text.trim());
+            training.name = _nameController.text.trim();
+            if(_abstractController.text.trim().isNotEmpty) training.abstract = _abstractController.text.trim();
 
-            try {
-              String? id;
-              await FirebaseFirestore.instance.collection("user").doc(userStore.user.uid).collection("training").add(
-                {
-                  "name": trainingStore.training.name,
-                  "abstract": _abstractController.text.trim(),
-                  "time": Timestamp.now()
-                }
-              ).then((value) {
-                id = value.id;
-              });
-              
-              for (var e in trainingStore.training.exercises!) {
-                Map<String, dynamic> exercise = e.toMap();
-                exercise['time'] = Timestamp.now();
-                FirebaseFirestore.instance.collection("user").doc(userStore.user.uid).collection("training").doc(id).collection("exercises").add(exercise);
-              }
-            } catch (e) {
-              null;
+            if(widget.index != null) {
+              trainingStore.edit(training, widget.index);
+            } else {
+              trainingStore.add(training);
             }
-            
-            trainingStore.clear();
             Navigator.pop(context);
+
+            // try {
+            //   String? id;
+            //   await FirebaseFirestore.instance.collection("user").doc(userStore.user.uid).collection("training").add(
+            //     {
+            //       "name": training.name,
+            //       "abstract": _abstractController.text.trim(),
+            //       "time": Timestamp.now()
+            //     }
+            //   ).then((value) {
+            //     id = value.id;
+            //   });
+              
+            //   for (var e in training.exercises!) {
+            //     Map<String, dynamic> exercise = e.toMap();
+            //     exercise['time'] = Timestamp.now();
+            //     FirebaseFirestore.instance.collection("user").doc(userStore.user.uid).collection("training").doc(id).collection("exercises").add(exercise);
+            //   }
+            // } catch (e) {
+            //   null;
+            // }
+            
+            //Navigator.pop(context);
           }
         }
+      ),
+    );
+  }
+
+  Widget exerciseTile(int index) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 3),
+      child: ListTile(
+        contentPadding: const EdgeInsets.only(left: 10),
+        title: Text(training.exercises![index].name!),
+        subtitle: Text(
+          "${training.exercises![index].serie} x ${training.exercises![index].repeat} ${training.exercises![index].weight != '' ?  '(${training.exercises![index].weight})' : ''}"
+        ),
+        trailing: IconButton(
+          icon: const Icon(Icons.delete, color: Colors.red),
+          onPressed: () {
+            showDialog(
+              context: context,
+              builder: (context) => DialogWidget(
+                title: "Atenção",
+                subTitle: "Deseja apagar este exercicio?",
+                primarylabel: "Confirmar",
+                secundaryLabel: "Cancelar",
+                primaryFunc: () {
+                  training.exercises!.removeAt(index);
+                  setState(() {});
+                  Navigator.pop(context);
+                },
+                secundaryFunc: () => Navigator.pop(context)
+              )
+            );
+          },
+        ),
+        onTap: () async {
+          ExerciseEntity? retorno = await showDialog(
+            context: context,
+            builder: (context) => ExerciseDialog(exercise: training.exercises![index])
+          );
+
+          if(retorno != null) {
+            training.exercises![index] = retorno;
+            setState(() {});
+          }
+        },
       ),
     );
   }

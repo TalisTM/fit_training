@@ -1,7 +1,11 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:fit_training/models/exercise_entity.dart';
+import 'package:fit_training/models/training_entity.dart';
 import 'package:fit_training/models/user_entity.dart';
 import 'package:fit_training/presentation/pages/auth/auth_page.dart';
 import 'package:fit_training/presentation/pages/home/home_page.dart';
+import 'package:fit_training/stores/training/training_store.dart';
 import 'package:fit_training/stores/user/user_store.dart';
 import 'package:fit_training/utils/is_logged.dart';
 import 'package:flutter/material.dart';
@@ -18,7 +22,25 @@ class SplashPage extends StatefulWidget {
 class _SplashPageState extends State<SplashPage> {
 
   final userStore = GetIt.I.get<UserStore>();
+  final trainingStore = GetIt.I.get<TrainingStore>();
   bool isDarkMode = false;
+
+  Future<void> _getDatas() async {
+    // await FirebaseFirestore.instance.collection("user").doc(userStore.user.uid).collection("training").orderBy("time").get().then((snapshot) {
+    //   for (var training in snapshot.docs) {
+    //     TrainingEntity tempTraining = TrainingEntity.fromMap(training.data());
+    //     tempTraining.exercises = [];
+    //     training.reference.collection("exercises").orderBy("time").get().then((trainingSnapshot) {
+    //       for (var exercise in trainingSnapshot.docs) {
+    //         ExerciseEntity tempExercise = ExerciseEntity.fromMap(exercise.data());
+    //         tempTraining.exercises!.add(tempExercise);
+    //       }
+    //     });
+    //     trainingStore.add(tempTraining);
+    //   }
+    // });
+  }
+
   @override
   void initState() {
     super.initState();    
@@ -34,6 +56,8 @@ class _SplashPageState extends State<SplashPage> {
         )
       );
     });
+
+    _getDatas();
 
     Future.delayed(const Duration(seconds: 1)).then((value) {
       if(isLogged()) {
