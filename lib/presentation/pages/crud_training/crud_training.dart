@@ -8,10 +8,7 @@ import 'package:fit_training/presentation/pages/crud_training/widgets/exercise_d
 import 'package:fit_training/stores/training/training_store.dart';
 import 'package:fit_training/stores/user/user_store.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:get_it/get_it.dart';
-
-import 'widgets/crud_exercise_tile.dart';
 
 class CrudTraining extends StatefulWidget {
   final int? index;
@@ -40,7 +37,7 @@ class _CrudTrainingState extends State<CrudTraining> {
     super.initState();
 
     if(widget.index != null) {
-      training = trainingStore.training[widget.index!].copyWith();
+      training = TrainingEntity.fromMap(trainingStore.training[widget.index!].toMap());
       _nameController.text = training.name!;
     }
   }
