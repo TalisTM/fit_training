@@ -13,4 +13,18 @@ abstract class _UserStore with Store {
   setUser(UserEntity newUser) {
     user = newUser;
   }
+
+  @action
+  addDone() {
+    if(user.done != null) {
+      user = user.copyWith(done: user.done! + 1);
+    } else {
+      user = user.copyWith(done: 1);
+    }
+  }
+
+  @action
+  resetDone() {
+    user = user.copyWith(done: 0);
+  }
 }

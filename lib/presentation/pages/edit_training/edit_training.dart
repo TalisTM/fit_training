@@ -47,7 +47,7 @@ class _EditTrainingState extends State<EditTraining> {
                       primarylabel: "Confirmar",
                       secundaryLabel: "Cancelar",
                       primaryFunc: () {
-                        FirebaseFirestore.instance.collection("user").doc(userStore.user.uid).update({"qtdTraining": 0});
+                        userStore.resetDone(); //atualizxar o bancoooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooo
                         Navigator.pop(context);
                       },
                       secundaryFunc: () => Navigator.pop(context)

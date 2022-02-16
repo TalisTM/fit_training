@@ -53,7 +53,7 @@ class _AuthPageState extends State<AuthPage> {
             name: user.displayName,
             email: user.email,
             photoUrl: user.photoURL,
-            qtdTraining: 0
+            done: 0
           )
         );
 

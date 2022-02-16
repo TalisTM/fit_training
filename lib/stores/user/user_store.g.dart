@@ -38,6 +38,28 @@ mixin _$UserStore on _UserStore, Store {
   }
 
   @override
+  dynamic addDone() {
+    final _$actionInfo =
+        _$_UserStoreActionController.startAction(name: '_UserStore.addDone');
+    try {
+      return super.addDone();
+    } finally {
+      _$_UserStoreActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
+  dynamic resetDone() {
+    final _$actionInfo =
+        _$_UserStoreActionController.startAction(name: '_UserStore.resetDone');
+    try {
+      return super.resetDone();
+    } finally {
+      _$_UserStoreActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
   String toString() {
     return '''
 user: ${user}

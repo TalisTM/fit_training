@@ -1,6 +1,5 @@
 import 'package:fit_training/models/exercise_entity.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_mobx/flutter_mobx.dart';
 
 import 'exercise_widget.dart';
 
@@ -22,18 +21,14 @@ class _ExerciseTileState extends State<ExerciseTile> {
         subtitle: Text(
           "${widget.exercise.serie} x ${widget.exercise.repeat} ${widget.exercise.weight != '' ?  '(${widget.exercise.weight})' : ''}"
         ),
-        trailing: Observer(
-          builder: (context) {
-            return Checkbox(
-              value: widget.exercise.check,
-              activeColor: Theme.of(context).primaryColor,
-              onChanged: (value) {
-                widget.exercise.check = value;
-                setState(() {});
-                //check trueeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee
-              },
-            );
-          }
+        trailing: Checkbox(
+          value: widget.exercise.check,
+          activeColor: Theme.of(context).primaryColor,
+          onChanged: (value) {
+            widget.exercise.check = value;
+            setState(() {});
+            //check trueeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee
+          },
         ),
         onTap: () async {
           var retorno = await showDialog(
