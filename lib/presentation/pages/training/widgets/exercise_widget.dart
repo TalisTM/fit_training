@@ -1,6 +1,5 @@
 import 'dart:async';
 
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:fit_training/models/exercise_entity.dart';
 import 'package:fit_training/presentation/components/widgets/text_field_widget.dart';
 import 'package:fit_training/stores/user/user_store.dart';
@@ -22,8 +21,6 @@ class _ExerciseWidgetState extends State<ExerciseWidget> {
   Timer? timer;
   int conter = 0;
 
-  int done = 0;
-
   final userStore = GetIt.I.get<UserStore>();
 
   @override
@@ -44,8 +41,7 @@ class _ExerciseWidgetState extends State<ExerciseWidget> {
           IconButton(
             icon: Icon(Icons.close, color: Theme.of(context).primaryColor, size: 35),
             onPressed: () {
-              if(done == widget.exercise.serie) {
-                //check trueeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee
+              if(widget.exercise.done == widget.exercise.serie) {
               }
               if(timer != null) timer!.cancel();
               Navigator.pop(context);
@@ -79,28 +75,28 @@ class _ExerciseWidgetState extends State<ExerciseWidget> {
                       padding: EdgeInsets.zero,
                       icon: Icon(Icons.remove_circle, color: Theme.of(context).primaryColor, size: 40),
                       onPressed: () {
-                        if(done > 0) {
-                          done--;
+                        if(widget.exercise.done! > 0) {
+                          widget.exercise.done = widget.exercise.done! - 1;
+                          setState(() {});
                           if(timer != null) timer!.cancel();
                           conter = 0;
                           setState(() {});
                         }
                       },
                     ),
-                    Text(done.toString(), style: Theme.of(context).textTheme.subtitle1),
+                    Text(widget.exercise.done.toString(), style: Theme.of(context).textTheme.subtitle1),
                     IconButton(
                       padding: EdgeInsets.zero,
                       icon: Icon(Icons.add_circle, color: Theme.of(context).primaryColor, size: 40),
                       onPressed: () async {
-                        if(done == widget.exercise.serie) {
+                        if(widget.exercise.done == widget.exercise.serie) {
                           if(timer != null) timer!.cancel();
                           Navigator.pop(context, true);
                           widget.exercise.check = true;
                           setState(() {});
-                          //check trueeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee
 
-                        } else if(done < widget.exercise.serie!) {
-                          done++;
+                        } else if(widget.exercise.done! < widget.exercise.serie!) {
+                          widget.exercise.done = widget.exercise.done! + 1;
                           setState(() {});
 
                           conter = 40;
@@ -114,12 +110,11 @@ class _ExerciseWidgetState extends State<ExerciseWidget> {
                               }
                             });
 
-                            if(done >= widget.exercise.serie! && conter == 0) {
+                            if(widget.exercise.done! >= widget.exercise.serie! && conter == 0) {
                               timer.cancel();
                               Navigator.pop(context, true);
                               widget.exercise.check = true;
                               setState(() {});
-                              //check trueeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee
                             }
                           });
                         }
@@ -129,7 +124,6 @@ class _ExerciseWidgetState extends State<ExerciseWidget> {
                 ),
                 Column(
                   children: [
-                    //Text("Descanso:", style: Theme.of(context).textTheme.subtitle1),
                     Container(
                       margin: const EdgeInsets.symmetric(vertical: 10),
                       height: 70,
@@ -161,7 +155,6 @@ class _ExerciseWidgetState extends State<ExerciseWidget> {
                   onChanged: (text) {
                     widget.exercise.weight = text;
                     setState(() {});
-                    //check trueeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee
                   },
                 ),
               ],
