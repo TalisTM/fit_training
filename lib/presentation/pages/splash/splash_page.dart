@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:fit_training/database/database.dart';
 import 'package:fit_training/models/exercise_entity.dart';
 import 'package:fit_training/models/training_entity.dart';
 import 'package:fit_training/models/user_entity.dart';
@@ -26,6 +27,7 @@ class _SplashPageState extends State<SplashPage> {
   bool isDarkMode = false;
 
   Future<void> _getDatas() async {
+    await Database.loadDatas();
     // await FirebaseFirestore.instance.collection("user").doc(userStore.user.uid).collection("training").orderBy("time").get().then((snapshot) {
     //   for (var training in snapshot.docs) {
     //     TrainingEntity tempTraining = TrainingEntity.fromMap(training.data());
@@ -46,7 +48,7 @@ class _SplashPageState extends State<SplashPage> {
     super.initState();    
     var brightness = SchedulerBinding.instance!.window.platformBrightness;
     isDarkMode = brightness == Brightness.dark;
-    FirebaseAuth.instance.authStateChanges().listen((user) {
+    FirebaseAuth.instance.authStateChanges().listen((user) async {
       userStore.setUser(
         UserEntity(
           uid: user?.uid,
@@ -55,6 +57,7 @@ class _SplashPageState extends State<SplashPage> {
           photoUrl: user?.photoURL
         )
       );
+      await Database.saveUser();
     });
 
     _getDatas();

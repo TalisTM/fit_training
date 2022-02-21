@@ -1,4 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:fit_training/database/database.dart';
+import 'package:fit_training/models/user_entity.dart';
 import 'package:fit_training/presentation/components/widgets/dialog_widget.dart';
 import 'package:fit_training/presentation/pages/auth/auth_page.dart';
 import 'package:fit_training/stores/user/user_store.dart';
@@ -82,6 +84,8 @@ class AppBarHome extends StatelessWidget implements PreferredSizeWidget {
                                       secundaryLabel: "Cancelar",
                                       primaryFunc: () async {
                                         await FirebaseAuth.instance.signOut();
+                                        userStore.setUser(UserEntity());
+                                        await Database.saveUser();
                                         Navigator.push(context, MaterialPageRoute(builder: (context) => const AuthPage()));
                                       }, 
                                       secundaryFunc: () => Navigator.pop(context)

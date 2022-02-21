@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:fit_training/database/database.dart';
 import 'package:fit_training/models/user_entity.dart';
 import 'package:fit_training/presentation/pages/home/home_page.dart';
 import 'package:fit_training/stores/user/user_store.dart';
@@ -48,14 +49,15 @@ class _AuthPageState extends State<AuthPage> {
       });
 
       userStore.setUser(
-          UserEntity(
-            uid: user.uid,
-            name: user.displayName,
-            email: user.email,
-            photoUrl: user.photoURL,
-            done: 0
-          )
-        );
+        UserEntity(
+          uid: user.uid,
+          name: user.displayName,
+          email: user.email,
+          photoUrl: user.photoURL,
+          done: 0
+        )
+      );
+      await Database.saveUser();
 
       if (!existe) {
         FirebaseFirestore.instance.collection("user").doc(userStore.user.uid).set(userStore.user.toMap());

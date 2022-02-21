@@ -78,4 +78,20 @@ abstract class _TrainingStore with Store {
   edit(TrainingEntity temp, index) {
     training[index] = temp;
   }
+
+  getTraining() {
+    List listTraining = [];
+    for (TrainingEntity t in training) {
+      listTraining.add(t.toJson());
+    }
+    return listTraining;
+  }
+
+  @action
+  setTraining(temp) {
+    training.clear();
+    for (var t in temp) {
+      training.add(TrainingEntity.fromJson(t));
+    }
+  }
 }

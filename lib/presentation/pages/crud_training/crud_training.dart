@@ -1,3 +1,4 @@
+import 'package:fit_training/database/database.dart';
 import 'package:fit_training/models/exercise_entity.dart';
 import 'package:fit_training/models/training_entity.dart';
 import 'package:fit_training/presentation/components/widgets/appbar_widget.dart';
@@ -140,6 +141,7 @@ class _CrudTrainingState extends State<CrudTraining> {
             } else {
               trainingStore.add(training);
             }
+            await Database.saveTraining();
             Navigator.pop(context);
 
             // try {

@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:fit_training/database/database.dart';
 import 'package:fit_training/presentation/pages/home/widgets/training_tile.dart';
 import 'package:fit_training/stores/training/training_store.dart';
 import 'package:fit_training/stores/user/user_store.dart';
