@@ -53,6 +53,7 @@
 //   }
 // }
 
+import 'package:fit_training/database/database.dart';
 import 'package:fit_training/models/training_entity.dart';
 import 'package:mobx/mobx.dart';
 part 'training_store.g.dart';
@@ -65,18 +66,21 @@ abstract class _TrainingStore with Store {
   List<TrainingEntity> training = ObservableList();
 
   @action
-  add(TrainingEntity temp) {
+  add(TrainingEntity temp) async {
     training.add(temp);
+    await Database.saveTraining();
   }
 
   @action
-  delete(int index) {
+  delete(int index) async {
     training.removeAt(index);
+    await Database.saveTraining();
   }
   
   @action
-  edit(TrainingEntity temp, index) {
+  edit(TrainingEntity temp, index) async {
     training[index] = temp;
+    await Database.saveTraining();
   }
 
   getTraining() {

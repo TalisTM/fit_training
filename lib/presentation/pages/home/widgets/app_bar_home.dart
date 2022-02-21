@@ -85,7 +85,6 @@ class AppBarHome extends StatelessWidget implements PreferredSizeWidget {
                                       primaryFunc: () async {
                                         await FirebaseAuth.instance.signOut();
                                         userStore.setUser(UserEntity());
-                                        await Database.saveUser();
                                         Navigator.push(context, MaterialPageRoute(builder: (context) => const AuthPage()));
                                       }, 
                                       secundaryFunc: () => Navigator.pop(context)

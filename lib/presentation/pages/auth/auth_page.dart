@@ -57,7 +57,6 @@ class _AuthPageState extends State<AuthPage> {
           done: 0
         )
       );
-      await Database.saveUser();
 
       if (!existe) {
         FirebaseFirestore.instance.collection("user").doc(userStore.user.uid).set(userStore.user.toMap());

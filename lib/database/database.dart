@@ -21,11 +21,11 @@ class Database {
   static Future<void> loadDatas() async {
     final userStore = GetIt.I.get<UserStore>();
     final trainingStore = GetIt.I.get<TrainingStore>();
-
+    
     var box = await Hive.openBox("box");
 
-    userStore.setUser(UserEntity.fromJson(await box.get("user", defaultValue: UserEntity())));
-    trainingStore.setTraining(await box.get("training", defaultValue: []));
+    await userStore.setUser(UserEntity.fromJson(await box.get("user", defaultValue: UserEntity().toJson())));
+    await trainingStore.setTraining(await box.get("training", defaultValue: []));
   }
 
 }

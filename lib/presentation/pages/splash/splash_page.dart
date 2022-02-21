@@ -1,8 +1,5 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:fit_training/database/database.dart';
-import 'package:fit_training/models/exercise_entity.dart';
-import 'package:fit_training/models/training_entity.dart';
 import 'package:fit_training/models/user_entity.dart';
 import 'package:fit_training/presentation/pages/auth/auth_page.dart';
 import 'package:fit_training/presentation/pages/home/home_page.dart';
@@ -28,6 +25,20 @@ class _SplashPageState extends State<SplashPage> {
 
   Future<void> _getDatas() async {
     await Database.loadDatas();
+    
+    if (!isLogged()) {
+      FirebaseAuth.instance.authStateChanges().listen((user) {
+        userStore.setUser(
+          UserEntity(
+            uid: user?.uid,
+            name: user?.displayName,
+            email: user?.email,
+            photoUrl: user?.photoURL
+          )
+        );
+      });
+    }
+
     // await FirebaseFirestore.instance.collection("user").doc(userStore.user.uid).collection("training").orderBy("time").get().then((snapshot) {
     //   for (var training in snapshot.docs) {
     //     TrainingEntity tempTraining = TrainingEntity.fromMap(training.data());
@@ -48,17 +59,6 @@ class _SplashPageState extends State<SplashPage> {
     super.initState();    
     var brightness = SchedulerBinding.instance!.window.platformBrightness;
     isDarkMode = brightness == Brightness.dark;
-    FirebaseAuth.instance.authStateChanges().listen((user) async {
-      userStore.setUser(
-        UserEntity(
-          uid: user?.uid,
-          name: user?.displayName,
-          email: user?.email,
-          photoUrl: user?.photoURL
-        )
-      );
-      await Database.saveUser();
-    });
 
     _getDatas();
 

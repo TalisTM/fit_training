@@ -141,7 +141,6 @@ class _CrudTrainingState extends State<CrudTraining> {
             } else {
               trainingStore.add(training);
             }
-            await Database.saveTraining();
             Navigator.pop(context);
 
             // try {
