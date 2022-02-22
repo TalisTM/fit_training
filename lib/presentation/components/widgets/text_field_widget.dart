@@ -12,6 +12,7 @@ class TextFieldWidget extends StatelessWidget {
   final EdgeInsets? padding;
   final String? errorText;
   final Function(String)? onChanged;
+  final bool autofocus;
 
   const TextFieldWidget({
     Key? key,
@@ -23,7 +24,8 @@ class TextFieldWidget extends StatelessWidget {
     this.keyboardType,
     this.padding,
     this.errorText,
-    this.onChanged
+    this.onChanged,
+    this.autofocus = false,
     }) : super(key: key);
 
   @override
@@ -31,6 +33,7 @@ class TextFieldWidget extends StatelessWidget {
     return Padding(
       padding: padding ?? EdgeInsets.zero,
       child: TextFormField(
+        autofocus: autofocus,
         controller: controller,
         obscureText: obscureText,
         keyboardType: keyboardType,

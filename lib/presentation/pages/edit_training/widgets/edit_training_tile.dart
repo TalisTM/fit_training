@@ -40,7 +40,7 @@ class _EditTrainingTileState extends State<EditTrainingTile> {
                 primarylabel: "Confirmar",
                 secundaryLabel: "Cancelar",
                 primaryFunc: () {
-                  trainingStore.training.removeAt(widget.index);
+                  trainingStore.delete(widget.index);
                   Navigator.pop(context);
                 },
                 secundaryFunc: () => Navigator.pop(context)

@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:fit_training/database/database.dart';
 import 'package:fit_training/models/exercise_entity.dart';
 import 'package:fit_training/presentation/components/widgets/text_field_widget.dart';
 import 'package:fit_training/stores/user/user_store.dart';
@@ -78,6 +79,7 @@ class _ExerciseWidgetState extends State<ExerciseWidget> {
                         if(widget.exercise.done! > 0) {
                           widget.exercise.done = widget.exercise.done! - 1;
                           setState(() {});
+                          Database.saveTraining();
                           if(timer != null) timer!.cancel();
                           conter = 0;
                           setState(() {});
@@ -94,10 +96,12 @@ class _ExerciseWidgetState extends State<ExerciseWidget> {
                           Navigator.pop(context, true);
                           widget.exercise.check = true;
                           setState(() {});
+                          Database.saveTraining();
 
                         } else if(widget.exercise.done! < widget.exercise.serie!) {
                           widget.exercise.done = widget.exercise.done! + 1;
                           setState(() {});
+                          Database.saveTraining();
 
                           conter = 40;
                           if(timer != null) timer!.cancel();
@@ -115,6 +119,7 @@ class _ExerciseWidgetState extends State<ExerciseWidget> {
                               Navigator.pop(context, true);
                               widget.exercise.check = true;
                               setState(() {});
+                              Database.saveTraining();
                             }
                           });
                         }
@@ -155,6 +160,7 @@ class _ExerciseWidgetState extends State<ExerciseWidget> {
                   onChanged: (text) {
                     widget.exercise.weight = text;
                     setState(() {});
+                    Database.saveTraining();
                   },
                 ),
               ],

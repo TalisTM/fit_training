@@ -45,6 +45,7 @@ class _ExerciseDialogState extends State<ExerciseDialog> {
               padding: const EdgeInsets.only(top: 15, bottom: 15),
               label: "Nome",
               hintText: "Ex. Supino reto",
+              autofocus: true,
               errorText: _nameError,
               onChanged: (_) {
                 setState(() {

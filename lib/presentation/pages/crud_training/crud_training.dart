@@ -55,6 +55,7 @@ class _CrudTrainingState extends State<CrudTraining> {
             TextFieldWidget(
               label: "Nome do treino",
               hintText: "Ex. Treino A",
+              autofocus: true,
               errorText: _nameErro,
               onChanged: (_) {
                 setState(() {

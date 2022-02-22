@@ -1,3 +1,4 @@
+import 'package:fit_training/database/database.dart';
 import 'package:fit_training/models/exercise_entity.dart';
 import 'package:flutter/material.dart';
 
@@ -27,7 +28,7 @@ class _ExerciseTileState extends State<ExerciseTile> {
           onChanged: (value) {
             widget.exercise.check = value;
             setState(() {});
-            //check trueeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee
+            Database.saveTraining();
           },
         ),
         onTap: () async {
@@ -39,7 +40,7 @@ class _ExerciseTileState extends State<ExerciseTile> {
           if(retorno != null && retorno) {
             widget.exercise.check = true;
             setState(() {});
-            //check trueeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee
+            Database.saveTraining();
           }
         },
       ),
