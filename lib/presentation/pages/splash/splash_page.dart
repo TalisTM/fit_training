@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:fit_training/database/database.dart';
 import 'package:fit_training/models/user_entity.dart';
@@ -39,19 +40,6 @@ class _SplashPageState extends State<SplashPage> {
       });
     }
 
-    // await FirebaseFirestore.instance.collection("user").doc(userStore.user.uid).collection("training").orderBy("time").get().then((snapshot) {
-    //   for (var training in snapshot.docs) {
-    //     TrainingEntity tempTraining = TrainingEntity.fromMap(training.data());
-    //     tempTraining.exercises = [];
-    //     training.reference.collection("exercises").orderBy("time").get().then((trainingSnapshot) {
-    //       for (var exercise in trainingSnapshot.docs) {
-    //         ExerciseEntity tempExercise = ExerciseEntity.fromMap(exercise.data());
-    //         tempTraining.exercises!.add(tempExercise);
-    //       }
-    //     });
-    //     trainingStore.add(tempTraining);
-    //   }
-    // });
   }
 
   @override
