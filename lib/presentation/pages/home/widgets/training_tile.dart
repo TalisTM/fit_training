@@ -1,4 +1,8 @@
+import 'dart:io';
+
+import 'package:fit_training/database/database.dart';
 import 'package:fit_training/models/training_entity.dart';
+import 'package:fit_training/presentation/components/widgets/dialog_widget.dart';
 import 'package:fit_training/presentation/pages/training/training_page.dart';
 import 'package:fit_training/stores/user/user_store.dart';
 import 'package:flutter/material.dart';
@@ -30,44 +34,41 @@ class _TrainingTileState extends State<TrainingTile> {
         subtitle: Text(widget.training.abstract ?? ""),
         trailing: Icon(Icons.arrow_forward_ios, color: Theme.of(context).primaryColor),
         onTap: () async {
-          Navigator.push(context, MaterialPageRoute(builder: (context) => TrainingPage(widget.training)));
-          // bool hasTraining = false;
-          // trainingStore.treino['series'][indexSerie]['exercise'].forEach((exercise) {
-          //   if(exercise['check'] || exercise['done'] != 0) {
-          //     hasTraining = true;
-          //   }
-          // });
+          bool hasTraining = false;
+          for(var exercise in widget.training.exercises!) {
+            if(exercise.check! || exercise.done != 0) {
+              hasTraining = true;
+            }
+          }
       
-          // if(hasTraining) {
-          //   await showDialog(
-          //     context: context,
-          //     builder: (context) => DialogWidget(
-          //       title: "Treino em progresso",
-          //       subTitle: "Deseja continuar ou iniciar um novo treino?",
-          //       primarylabel: "Continuar",
-          //       secundaryLabel: "Novo",
-          //       primaryFunc: () {
-          //         Navigator.pop(context);
-          //         Navigator.push(context, MaterialPageRoute(builder: (context) => SeriesPage(indexSerie: indexSerie)));
-          //       },
-          //       secundaryFunc: () {
-          //         Map aux = trainingStore.treino;
-          //         aux['series'][indexSerie]['exercise'].forEach((exercise) {
-          //           exercise['done'] = 0;
-          //           exercise['check'] = false;
-          //         });
+          if(hasTraining) {
+            await showDialog(
+              context: context,
+              builder: (context) => DialogWidget(
+                title: "Treino em progresso",
+                subTitle: "Deseja continuar ou iniciar um novo treino?",
+                primarylabel: "Continuar",
+                secundaryLabel: "Novo",
+                primaryFunc: () {
+                  Navigator.pop(context);
+                  Navigator.push(context, MaterialPageRoute(builder: (context) => TrainingPage(widget.training)));
+                },
+                secundaryFunc: () {
+                  for(var exercise in widget.training.exercises!) {
+                    exercise.done = 0;
+                    exercise.check = false;
+                  }
       
-          //         trainingStore.setTraining(aux);
-          //         Database.setDados();
+                  Database.saveTraining();
       
-          //         Navigator.pop(context);
-          //         Navigator.push(context, MaterialPageRoute(builder: (context) => SeriesPage(indexSerie: indexSerie)));
-          //       },
-          //     )
-          //   );
-          // } else {
-          //   Navigator.push(context, MaterialPageRoute(builder: (context) => SeriesPage(indexSerie: indexSerie)));
-          // }
+                  Navigator.pop(context);
+                  Navigator.push(context, MaterialPageRoute(builder: (context) => TrainingPage(widget.training)));
+                },
+              )
+            );
+          } else {
+            Navigator.push(context, MaterialPageRoute(builder: (context) => TrainingPage(widget.training)));
+          }
         } 
       ),
     );
