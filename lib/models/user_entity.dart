@@ -1,11 +1,14 @@
 import 'dart:convert';
 
+import 'package:cloud_firestore/cloud_firestore.dart';
+
 class UserEntity {
   String? uid;
   String? name;
   String? email;
   String? photoUrl;
   int? done;
+  DateTime? lastDate;
   
   UserEntity({
     this.uid,
@@ -13,6 +16,7 @@ class UserEntity {
     this.email,
     this.photoUrl,
     this.done,
+    this.lastDate,
   });
 
   UserEntity copyWith({
@@ -21,6 +25,7 @@ class UserEntity {
     String? email,
     String? photoUrl,
     int? done,
+    DateTime? lastDate,
   }) {
     return UserEntity(
       uid: uid ?? this.uid,
@@ -28,6 +33,7 @@ class UserEntity {
       email: email ?? this.email,
       photoUrl: photoUrl ?? this.photoUrl,
       done: done ?? this.done,
+      lastDate: lastDate ?? this.lastDate,
     );
   }
 
@@ -49,6 +55,9 @@ class UserEntity {
     if(done != null){
       result.addAll({'done': done});
     }
+    if(lastDate != null){
+      result.addAll({'lastDate': lastDate!.millisecondsSinceEpoch});
+    }
   
     return result;
   }
@@ -60,6 +69,7 @@ class UserEntity {
       email: map['email'],
       photoUrl: map['photoUrl'],
       done: map['done']?.toInt(),
+      lastDate:  map['lastDate'] is Timestamp ? map['lastDate'].toDate() : DateTime.fromMillisecondsSinceEpoch(map['lastDate'])
     );
   }
 
@@ -69,7 +79,7 @@ class UserEntity {
 
   @override
   String toString() {
-    return 'UserEntity(uid: $uid, name: $name, email: $email, photoUrl: $photoUrl, done: $done)';
+    return 'UserEntity(uid: $uid, name: $name, email: $email, photoUrl: $photoUrl, done: $done, lastDate: $lastDate)';
   }
 
   @override
@@ -81,7 +91,8 @@ class UserEntity {
       other.name == name &&
       other.email == email &&
       other.photoUrl == photoUrl &&
-      other.done == done;
+      other.done == done &&
+      other.lastDate == lastDate;
   }
 
   @override
@@ -90,6 +101,7 @@ class UserEntity {
       name.hashCode ^
       email.hashCode ^
       photoUrl.hashCode ^
-      done.hashCode;
+      done.hashCode ^
+      lastDate.hashCode;
   }
 }

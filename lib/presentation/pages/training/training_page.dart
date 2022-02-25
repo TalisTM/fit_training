@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:fit_training/database/database.dart';
 import 'package:fit_training/models/training_entity.dart';
 import 'package:fit_training/presentation/components/widgets/appbar_widget.dart';
@@ -74,8 +75,9 @@ class _TrainingPageState extends State<TrainingPage> {
     );
   }
 
-  void finalizarTreino() {
+  void finalizarTreino() async {
     userStore.addDone();
+    await FirebaseFirestore.instance.collection("user").doc(userStore.user.uid).update({"done": userStore.user.done});
      
     for (var exercise in widget.training.exercises!) {
       exercise.done = 0;

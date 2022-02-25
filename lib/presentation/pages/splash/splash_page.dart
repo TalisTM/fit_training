@@ -28,18 +28,19 @@ class _SplashPageState extends State<SplashPage> {
     await Database.loadDatas();
     
     if (!isLogged()) {
-      FirebaseAuth.instance.authStateChanges().listen((user) {
-        userStore.setUser(
-          UserEntity(
-            uid: user?.uid,
-            name: user?.displayName,
-            email: user?.email,
-            photoUrl: user?.photoURL
-          )
-        );
+      FirebaseAuth.instance.authStateChanges().listen((user) async {
+        
+        await FirebaseFirestore.instance.collection("user").doc(user?.uid).get().then((u) {
+          if (u.data() != null) {
+            userStore.setUser(UserEntity.fromMap(u.data()!));
+          }
+        });
       });
     }
 
+    if(isLogged()) {
+      await trainingStore.loadFirebase();
+    }
   }
 
   @override

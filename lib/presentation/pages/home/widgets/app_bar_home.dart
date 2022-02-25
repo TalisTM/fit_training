@@ -84,8 +84,8 @@ class AppBarHome extends StatelessWidget implements PreferredSizeWidget {
                                       secundaryLabel: "Cancelar",
                                       primaryFunc: () async {
                                         await FirebaseAuth.instance.signOut();
-                                        userStore.setUser(UserEntity());
                                         Navigator.push(context, MaterialPageRoute(builder: (context) => const AuthPage()));
+                                        userStore.setUser(UserEntity());
                                       }, 
                                       secundaryFunc: () => Navigator.pop(context)
                                     )

@@ -24,8 +24,12 @@ class Database {
     
     var box = await Hive.openBox("box");
 
-    await userStore.setUser(UserEntity.fromJson(await box.get("user", defaultValue: UserEntity().toJson())));
-    await trainingStore.setTraining(await box.get("training", defaultValue: []));
+    try {
+      await userStore.setUser(UserEntity.fromJson(await box.get("user", defaultValue: UserEntity().toJson())));
+      await trainingStore.setTraining(await box.get("training", defaultValue: []));
+    } catch (e) {
+      null;
+    }
   }
 
 }

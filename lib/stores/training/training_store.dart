@@ -12,12 +12,28 @@ abstract class _TrainingStore with Store {
 
   final userStore = GetIt.I.get<UserStore>();
 
-  saveFirebase() {
-    FirebaseFirestore.instance.collection("user").doc(userStore.user.uid).update(
+  Future<void> saveFirebase() async {
+    userStore.user.lastDate = DateTime.now();
+    await FirebaseFirestore.instance.collection("user").doc(userStore.user.uid).update(
       {
-        "training": getTraining()
+        "training": getTraining(),
+        "lastDate": userStore.user.lastDate
       }
     );
+  }
+
+  Future<void> loadFirebase() async {
+    await FirebaseFirestore.instance.collection("user").doc(userStore.user.uid).get().then((user) async {
+      DateTime date = user.data()!["lastDate"].toDate();
+      print(date.isAfter(userStore.user.lastDate!));
+        if(date.isAfter(userStore.user.lastDate!)) {
+          setTraining(user.data()!["training"]);
+          userStore.user.lastDate = date;
+          await Database.saveTraining();
+        } else {
+          await saveFirebase();
+        }
+    });
   }
 
   @observable

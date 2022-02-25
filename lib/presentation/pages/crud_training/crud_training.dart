@@ -1,4 +1,3 @@
-import 'package:fit_training/database/database.dart';
 import 'package:fit_training/models/exercise_entity.dart';
 import 'package:fit_training/models/training_entity.dart';
 import 'package:fit_training/presentation/components/widgets/appbar_widget.dart';
@@ -143,29 +142,6 @@ class _CrudTrainingState extends State<CrudTraining> {
               trainingStore.add(training);
             }
             Navigator.pop(context);
-
-            // try {
-            //   String? id;
-            //   await FirebaseFirestore.instance.collection("user").doc(userStore.user.uid).collection("training").add(
-            //     {
-            //       "name": training.name,
-            //       "abstract": _abstractController.text.trim(),
-            //       "time": Timestamp.now()
-            //     }
-            //   ).then((value) {
-            //     id = value.id;
-            //   });
-              
-            //   for (var e in training.exercises!) {
-            //     Map<String, dynamic> exercise = e.toMap();
-            //     exercise['time'] = Timestamp.now();
-            //     FirebaseFirestore.instance.collection("user").doc(userStore.user.uid).collection("training").doc(id).collection("exercises").add(exercise);
-            //   }
-            // } catch (e) {
-            //   null;
-            // }
-            
-            //Navigator.pop(context);
           }
         }
       ),

@@ -46,8 +46,9 @@ class _EditTrainingState extends State<EditTraining> {
                       subTitle: "Tem certeza que deseja zerar o número de treinos feitos",
                       primarylabel: "Confirmar",
                       secundaryLabel: "Cancelar",
-                      primaryFunc: () {
-                        userStore.resetDone(); //atualizxar o bancoooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooo
+                      primaryFunc: () async {
+                        userStore.resetDone(); 
+                        await FirebaseFirestore.instance.collection("user").doc(userStore.user.uid).update({"done": userStore.user.done});
                         Navigator.pop(context);
                       },
                       secundaryFunc: () => Navigator.pop(context)
