@@ -1,6 +1,9 @@
 import 'dart:convert';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/foundation.dart';
+
+import 'package:fit_training/models/training_entity.dart';
 
 class UserEntity {
   String? uid;
@@ -9,6 +12,7 @@ class UserEntity {
   String? photoUrl;
   int? done;
   DateTime? lastDate;
+  List<TrainingEntity>? training;
   
   UserEntity({
     this.uid,
@@ -17,6 +21,7 @@ class UserEntity {
     this.photoUrl,
     this.done,
     this.lastDate,
+    this.training,
   });
 
   UserEntity copyWith({
@@ -26,6 +31,7 @@ class UserEntity {
     String? photoUrl,
     int? done,
     DateTime? lastDate,
+    List<TrainingEntity>? training,
   }) {
     return UserEntity(
       uid: uid ?? this.uid,
@@ -34,6 +40,7 @@ class UserEntity {
       photoUrl: photoUrl ?? this.photoUrl,
       done: done ?? this.done,
       lastDate: lastDate ?? this.lastDate,
+      training: training ?? this.training,
     );
   }
 
@@ -58,6 +65,7 @@ class UserEntity {
     if(lastDate != null){
       result.addAll({'lastDate': lastDate!.millisecondsSinceEpoch});
     }
+    result.addAll({'training': training?.map((x) => x.toMap()).toList()});
   
     return result;
   }
@@ -69,7 +77,8 @@ class UserEntity {
       email: map['email'],
       photoUrl: map['photoUrl'],
       done: map['done']?.toInt(),
-      lastDate:  map['lastDate'] is Timestamp ? map['lastDate'].toDate() : DateTime.fromMillisecondsSinceEpoch(map['lastDate'])
+      lastDate: map['lastDate'] is Timestamp ? map['lastDate'].toDate() : DateTime.fromMillisecondsSinceEpoch(map['lastDate']),
+      training: List<TrainingEntity>.from(map['training']?.map((x) => TrainingEntity.fromMap(x))),
     );
   }
 
@@ -79,7 +88,7 @@ class UserEntity {
 
   @override
   String toString() {
-    return 'UserEntity(uid: $uid, name: $name, email: $email, photoUrl: $photoUrl, done: $done, lastDate: $lastDate)';
+    return 'UserEntity(uid: $uid, name: $name, email: $email, photoUrl: $photoUrl, done: $done, lastDate: $lastDate, training: $training)';
   }
 
   @override
@@ -92,7 +101,8 @@ class UserEntity {
       other.email == email &&
       other.photoUrl == photoUrl &&
       other.done == done &&
-      other.lastDate == lastDate;
+      other.lastDate == lastDate &&
+      listEquals(other.training, training);
   }
 
   @override
@@ -102,6 +112,7 @@ class UserEntity {
       email.hashCode ^
       photoUrl.hashCode ^
       done.hashCode ^
-      lastDate.hashCode;
+      lastDate.hashCode ^
+      training.hashCode;
   }
 }

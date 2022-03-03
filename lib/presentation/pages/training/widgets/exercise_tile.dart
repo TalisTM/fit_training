@@ -28,7 +28,7 @@ class _ExerciseTileState extends State<ExerciseTile> {
           onChanged: (value) {
             widget.exercise.check = value;
             setState(() {});
-            Database.saveTraining();
+            Database.save();
           },
         ),
         onTap: () async {
@@ -40,7 +40,7 @@ class _ExerciseTileState extends State<ExerciseTile> {
           if(retorno != null && retorno) {
             widget.exercise.check = true;
             setState(() {});
-            Database.saveTraining();
+            Database.save();
           }
         },
       ),

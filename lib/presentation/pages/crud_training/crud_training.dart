@@ -5,7 +5,6 @@ import 'package:fit_training/presentation/components/widgets/dialog_widget.dart'
 import 'package:fit_training/presentation/components/widgets/text_button_widget.dart';
 import 'package:fit_training/presentation/components/widgets/text_field_widget.dart';
 import 'package:fit_training/presentation/pages/crud_training/widgets/exercise_dialog.dart';
-import 'package:fit_training/stores/training/training_store.dart';
 import 'package:fit_training/stores/user/user_store.dart';
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
@@ -21,7 +20,6 @@ class CrudTraining extends StatefulWidget {
 class _CrudTrainingState extends State<CrudTraining> {
 
   final userStore = GetIt.I.get<UserStore>();
-  final trainingStore = GetIt.I.get<TrainingStore>();
 
   final TextEditingController _nameController = TextEditingController();
   final TextEditingController _abstractController = TextEditingController();
@@ -37,7 +35,7 @@ class _CrudTrainingState extends State<CrudTraining> {
     super.initState();
 
     if(widget.index != null) {
-      training = TrainingEntity.fromMap(trainingStore.training[widget.index!].toMap());
+      training = TrainingEntity.fromMap(userStore.user.training![widget.index!].toMap());
       _nameController.text = training.name!;
     }
   }
@@ -137,9 +135,9 @@ class _CrudTrainingState extends State<CrudTraining> {
             if(_abstractController.text.trim().isNotEmpty) training.abstract = _abstractController.text.trim();
 
             if(widget.index != null) {
-              trainingStore.edit(training, widget.index);
+              userStore.editTraining(training, widget.index);
             } else {
-              trainingStore.add(training);
+              userStore.addTraining(training);
             }
             Navigator.pop(context);
           }

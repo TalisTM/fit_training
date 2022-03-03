@@ -4,7 +4,6 @@ import 'package:fit_training/database/database.dart';
 import 'package:fit_training/models/user_entity.dart';
 import 'package:fit_training/presentation/pages/auth/auth_page.dart';
 import 'package:fit_training/presentation/pages/home/home_page.dart';
-import 'package:fit_training/stores/training/training_store.dart';
 import 'package:fit_training/stores/user/user_store.dart';
 import 'package:fit_training/utils/is_logged.dart';
 import 'package:flutter/material.dart';
@@ -21,32 +20,23 @@ class SplashPage extends StatefulWidget {
 class _SplashPageState extends State<SplashPage> {
 
   final userStore = GetIt.I.get<UserStore>();
-  final trainingStore = GetIt.I.get<TrainingStore>();
   bool isDarkMode = false;
 
   Future<void> _getDatas() async {
-    await Database.loadDatas();
-    
-    if (!isLogged()) {
-      FirebaseAuth.instance.authStateChanges().listen((user) async {
-        
-        await FirebaseFirestore.instance.collection("user").doc(user?.uid).get().then((u) {
-          if (u.data() != null) {
-            userStore.setUser(UserEntity.fromMap(u.data()!));
-          }
-        });
+    await Database.load();
+    FirebaseAuth.instance.authStateChanges().listen((user) async {
+      await FirebaseFirestore.instance.collection("user").doc(user?.uid).get().then((u) async {
+        if (u.data() != null) {
+          await userStore.loadFirebase(u.data()!);
+        }
       });
-    }
-
-    if(isLogged()) {
-      await trainingStore.loadFirebase();
-    }
+    });
   }
 
   @override
   void initState() {
     super.initState();    
-    var brightness = SchedulerBinding.instance!.window.platformBrightness;
+    var brightness = SchedulerBinding.instance.window.platformBrightness;
     isDarkMode = brightness == Brightness.dark;
 
     _getDatas();

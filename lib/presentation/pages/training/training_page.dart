@@ -84,7 +84,7 @@ class _TrainingPageState extends State<TrainingPage> {
       exercise.check = false;
     }
 
-    Database.saveTraining();
+    Database.save();
 
     Navigator.pop(context);
     Navigator.pop(context);

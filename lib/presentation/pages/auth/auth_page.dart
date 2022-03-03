@@ -1,14 +1,13 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:fit_training/database/database.dart';
 import 'package:fit_training/models/user_entity.dart';
 import 'package:fit_training/presentation/pages/home/home_page.dart';
-import 'package:fit_training/stores/training/training_store.dart';
 import 'package:fit_training/stores/user/user_store.dart';
 import 'package:fit_training/utils/is_logged.dart';
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:mobx/mobx.dart';
 
 class AuthPage extends StatefulWidget {
   const AuthPage({ Key? key }) : super(key: key);
@@ -20,7 +19,6 @@ class AuthPage extends StatefulWidget {
 class _AuthPageState extends State<AuthPage> {
 
   final userStore = GetIt.I.get<UserStore>();
-  final trainingStore = GetIt.I.get<TrainingStore>();
 
   final GoogleSignIn googleSignIn = GoogleSignIn();
 
@@ -45,8 +43,8 @@ class _AuthPageState extends State<AuthPage> {
         List<QueryDocumentSnapshot<Map<String, dynamic>>> docs = users.docs;
         for (var u in docs) {
           if(u.data()['uid'] == user.uid) {
-            userStore.setUser(UserEntity.fromMap(u.data()));
             existe = true;
+            await userStore.loadFirebase(u.data());
             break;
           }
         }
@@ -59,15 +57,12 @@ class _AuthPageState extends State<AuthPage> {
               photoUrl: user.photoURL,
               done: 0,
               lastDate: DateTime.now(),
+              training: ObservableList()
             )
           );
-          FirebaseFirestore.instance.collection("user").doc(userStore.user.uid).set(userStore.user.toMap());
+          await FirebaseFirestore.instance.collection("user").doc(user.uid).set(userStore.user.toMap());
         }
       });
-
-      if(isLogged()) {
-        await trainingStore.loadFirebase();
-      }
 
       Navigator.pushAndRemoveUntil(
         context,

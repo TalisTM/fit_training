@@ -59,7 +59,7 @@ class _TrainingTileState extends State<TrainingTile> {
                     exercise.check = false;
                   }
       
-                  Database.saveTraining();
+                  Database.save();
       
                   Navigator.pop(context);
                   Navigator.push(context, MaterialPageRoute(builder: (context) => TrainingPage(widget.training)));

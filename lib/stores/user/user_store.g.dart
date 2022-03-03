@@ -24,39 +24,46 @@ mixin _$UserStore on _UserStore, Store {
     });
   }
 
-  final _$_UserStoreActionController = ActionController(name: '_UserStore');
+  final _$setUserAsyncAction = AsyncAction('_UserStore.setUser');
 
   @override
-  dynamic setUser(UserEntity newUser) {
-    final _$actionInfo =
-        _$_UserStoreActionController.startAction(name: '_UserStore.setUser');
-    try {
-      return super.setUser(newUser);
-    } finally {
-      _$_UserStoreActionController.endAction(_$actionInfo);
-    }
+  Future setUser(UserEntity newUser) {
+    return _$setUserAsyncAction.run(() => super.setUser(newUser));
   }
 
-  @override
-  dynamic addDone() {
-    final _$actionInfo =
-        _$_UserStoreActionController.startAction(name: '_UserStore.addDone');
-    try {
-      return super.addDone();
-    } finally {
-      _$_UserStoreActionController.endAction(_$actionInfo);
-    }
-  }
+  final _$addDoneAsyncAction = AsyncAction('_UserStore.addDone');
 
   @override
-  dynamic resetDone() {
-    final _$actionInfo =
-        _$_UserStoreActionController.startAction(name: '_UserStore.resetDone');
-    try {
-      return super.resetDone();
-    } finally {
-      _$_UserStoreActionController.endAction(_$actionInfo);
-    }
+  Future addDone() {
+    return _$addDoneAsyncAction.run(() => super.addDone());
+  }
+
+  final _$resetDoneAsyncAction = AsyncAction('_UserStore.resetDone');
+
+  @override
+  Future resetDone() {
+    return _$resetDoneAsyncAction.run(() => super.resetDone());
+  }
+
+  final _$addTrainingAsyncAction = AsyncAction('_UserStore.addTraining');
+
+  @override
+  Future addTraining(TrainingEntity temp) {
+    return _$addTrainingAsyncAction.run(() => super.addTraining(temp));
+  }
+
+  final _$deleteTrainingAsyncAction = AsyncAction('_UserStore.deleteTraining');
+
+  @override
+  Future deleteTraining(int index) {
+    return _$deleteTrainingAsyncAction.run(() => super.deleteTraining(index));
+  }
+
+  final _$editTrainingAsyncAction = AsyncAction('_UserStore.editTraining');
+
+  @override
+  Future editTraining(TrainingEntity temp, dynamic index) {
+    return _$editTrainingAsyncAction.run(() => super.editTraining(temp, index));
   }
 
   @override

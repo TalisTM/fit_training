@@ -20,7 +20,6 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
 
   final userStore = GetIt.I.get<UserStore>();
-  final trainingStore = GetIt.I.get<TrainingStore>();
 
   @override
   Widget build(BuildContext context) {
@@ -28,7 +27,7 @@ class _HomePageState extends State<HomePage> {
       appBar: const AppBarHome(),
       body: Observer(
         builder: (context) {
-          if(trainingStore.training.isEmpty) {
+          if(userStore.user.training!.isEmpty) {
             return Center(
               child: Padding(
                 padding: const EdgeInsets.all(20),
@@ -46,9 +45,9 @@ class _HomePageState extends State<HomePage> {
               child: ListView.builder(
                 physics: const BouncingScrollPhysics(),
                 padding: const EdgeInsets.symmetric(horizontal: 10),
-                itemCount: trainingStore.training.length,
+                itemCount: userStore.user.training!.length,
                 itemBuilder: (context, index) {
-                  return TrainingTile(trainingStore.training[index]);
+                  return TrainingTile(userStore.user.training![index]);
                 },
               ),
             );

@@ -2,7 +2,6 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:fit_training/presentation/components/widgets/dialog_widget.dart';
 import 'package:fit_training/presentation/components/widgets/text_button_widget.dart';
 import 'package:fit_training/presentation/pages/crud_training/crud_training.dart';
-import 'package:fit_training/stores/training/training_store.dart';
 import 'package:fit_training/stores/user/user_store.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
@@ -20,7 +19,6 @@ class EditTraining extends StatefulWidget {
 class _EditTrainingState extends State<EditTraining> {
 
   final userStore = GetIt.I.get<UserStore>();
-  final trainingStore = GetIt.I.get<TrainingStore>();
 
   @override
   Widget build(BuildContext context) {
@@ -68,7 +66,7 @@ class _EditTrainingState extends State<EditTraining> {
           children: [
             Observer(
               builder: (context) {
-                if(trainingStore.training.isEmpty) {
+                if(userStore.user.training!.isEmpty) {
                   return Center(
                     child: Padding(
                       padding: const EdgeInsets.all(20),
@@ -84,7 +82,7 @@ class _EditTrainingState extends State<EditTraining> {
                     padding: const EdgeInsets.symmetric(horizontal: 10),
                     primary: false,
                     shrinkWrap: true,
-                    itemCount: trainingStore.training.length,
+                    itemCount: userStore.user.training!.length,
                     itemBuilder: (context, index) {
                       return EditTrainingTile(index);
                     },
