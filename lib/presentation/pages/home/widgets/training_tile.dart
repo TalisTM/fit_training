@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import 'package:fit_training/database/database.dart';
 import 'package:fit_training/models/training_entity.dart';
 import 'package:fit_training/presentation/components/widgets/dialog_widget.dart';

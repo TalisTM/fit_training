@@ -77,10 +77,12 @@ abstract class _UserStore with Store {
   //CARREGAR OS DADOS DO FIREBASE
   Future<void> loadFirebase(Map<String, dynamic> data) async {
     DateTime date = DateTime.fromMillisecondsSinceEpoch(data["lastDate"]);
-      if(!isLogged() || date.isAfter(user.lastDate!) || date.isAtSameMomentAs(user.lastDate!)) {   
+    if(!date.isAtSameMomentAs(user.lastDate!)) { //SE FOR DIFERENTE A DATA
+      if(!isLogged() || date.isAfter(user.lastDate!)) { //CASO DA DATA RECEBIDA SER MAIS ATUAL OU USUARIO NÃO ESTEJA LOGADO
         setUser(UserEntity.fromMap(data));
-      } else {
+      } else { //CASO A DATA RECEBIDA SEJA MAIS ANTIGA | IRÁ SALVAR OS DADOS NO FIREBASE
         await saveFirebase();
       }
+    }
   }
 }

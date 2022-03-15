@@ -1,7 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:fit_training/database/database.dart';
-import 'package:fit_training/models/user_entity.dart';
 import 'package:fit_training/presentation/pages/auth/auth_page.dart';
 import 'package:fit_training/presentation/pages/home/home_page.dart';
 import 'package:fit_training/stores/user/user_store.dart';
