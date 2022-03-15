@@ -43,7 +43,25 @@ class _CrudTrainingState extends State<CrudTraining> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBarWidget(label: widget.index == null ? "Adicionar Treino" : "Editar ${training.name}"),
+      appBar: AppBarWidget(
+        label: widget.index == null ? "Adicionar Treino" : "Editar ${training.name}",
+        onPressedBackButton: () {
+          showDialog(
+            context: context,
+            builder: (context) => DialogWidget(
+              title: "Atenção",
+              subTitle: "Todas as alterações feitas serão perdidas",
+              primarylabel: "Continuar",
+              primaryFunc: () {
+                Navigator.pop(context);
+                Navigator.pop(context);
+              },
+              secundaryLabel: "Cancelar",
+              secundaryFunc: () => Navigator.pop(context),
+            )
+          );
+        }
+      ),
       body: SingleChildScrollView(
         physics: const BouncingScrollPhysics(),
         padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
@@ -124,10 +142,6 @@ class _CrudTrainingState extends State<CrudTraining> {
                 subTitle: "Adicione pelo menos um exercício primeiro",
                 primarylabel: "Ok",
                 primaryFunc: () => Navigator.pop(context),
-                secundaryLabel: "",
-                secundaryFunc: () {
-                  
-                }
               )
             );
           } else {
