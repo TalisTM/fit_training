@@ -35,7 +35,7 @@ class _SplashPageState extends State<SplashPage> {
   @override
   void initState() {
     super.initState();    
-    var brightness = SchedulerBinding.instance.window.platformBrightness;
+    var brightness = SchedulerBinding.instance?.window.platformBrightness;
     isDarkMode = brightness == Brightness.dark;
 
     _getDatas();

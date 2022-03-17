@@ -46,7 +46,9 @@ abstract class _UserStore with Store {
   //ADICIONAR UM NOVO TREINO
   @action
   addTraining(TrainingEntity temp) async {
-    user.training?.add(temp);
+    List<TrainingEntity>? auxTraining = user.training;
+    auxTraining?.add(temp);
+    user = user.copyWith(training: auxTraining);
     await Database.save();
     saveFirebase();
   }
@@ -54,7 +56,9 @@ abstract class _UserStore with Store {
   //DELETAR UM TREINO EXISTENTE
   @action
   deleteTraining(int index) async {
-    user.training?.removeAt(index);
+    List<TrainingEntity>? auxTraining = user.training;
+    auxTraining?.removeAt(index);
+    user = user.copyWith(training: auxTraining);
     await Database.save();
     saveFirebase();
   }
@@ -62,7 +66,9 @@ abstract class _UserStore with Store {
   //EDITAR UM TREINO EXISTENTE
   @action
   editTraining(TrainingEntity temp, index) async {
-    user.training?[index] = temp;
+    List<TrainingEntity>? auxTraining = user.training;
+    auxTraining?[index] = temp;
+    user = user.copyWith(training: auxTraining);
     await Database.save();
     saveFirebase();
   }
