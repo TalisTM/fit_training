@@ -7,18 +7,18 @@
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:644001521269:android:a0a7987dc660fe7550a23c",
+        "mobilesdk_app_id": "1:644001521269:android:6d0f59a2b2b2ea4750a23c",
         "android_client_info": {
           "package_name": "com.talis.fit_training"
         }
       },
       "oauth_client": [
         {
-          "client_id": "644001521269-e62vmkf8efcap4gh4gv3lvbfm3ni06b0.apps.googleusercontent.com",
+          "client_id": "644001521269-5311jcac2jnp1tqpo85164hiduvkfrq0.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
             "package_name": "com.talis.fit_training",
-            "certificate_hash": "62021b80cfd8de8583b9aba0dcec85b164a46df6"
+            "certificate_hash": "9e42ba04e350d92b2526c93f2efaeacf5ec10190"
           }
         },
         {
