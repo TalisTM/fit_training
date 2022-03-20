@@ -161,6 +161,7 @@ class _ExerciseWidgetState extends State<ExerciseWidget> {
                     widget.exercise.weight = text;
                     setState(() {});
                     Database.save();
+                    userStore.saveFirebase();
                   },
                 ),
               ],
