@@ -103,7 +103,7 @@ class _ExerciseWidgetState extends State<ExerciseWidget> {
                           setState(() {});
                           Database.save();
 
-                          conter = 40;
+                          conter = userStore.user.rest!;
                           if(timer != null) timer!.cancel();
                           timer = Timer.periodic(const Duration(seconds: 1), (timer) {
                             setState(() {
@@ -142,7 +142,7 @@ class _ExerciseWidgetState extends State<ExerciseWidget> {
                               strokeWidth: 10,
                               backgroundColor: Theme.of(context).hintColor,
                               valueColor: AlwaysStoppedAnimation<Color>(Theme.of(context).primaryColor),
-                              value: conter / 40,
+                              value: conter / userStore.user.rest!,
                             ),
                           ),
                           Center(

@@ -11,6 +11,7 @@ class UserEntity {
   String? email;
   String? photoUrl;
   int? done;
+  int? rest;
   DateTime? lastDate;
   List<TrainingEntity>? training;
   
@@ -20,6 +21,7 @@ class UserEntity {
     this.email,
     this.photoUrl,
     this.done,
+    this.rest,
     this.lastDate,
     this.training,
   });
@@ -30,6 +32,7 @@ class UserEntity {
     String? email,
     String? photoUrl,
     int? done,
+    int? rest,
     DateTime? lastDate,
     List<TrainingEntity>? training,
   }) {
@@ -39,6 +42,7 @@ class UserEntity {
       email: email ?? this.email,
       photoUrl: photoUrl ?? this.photoUrl,
       done: done ?? this.done,
+      rest: rest ?? this.rest,
       lastDate: lastDate ?? this.lastDate,
       training: training ?? this.training,
     );
@@ -62,10 +66,15 @@ class UserEntity {
     if(done != null){
       result.addAll({'done': done});
     }
+    if(rest != null){
+      result.addAll({'rest': rest});
+    }
     if(lastDate != null){
       result.addAll({'lastDate': lastDate!.millisecondsSinceEpoch});
     }
-    result.addAll({'training': training?.map((x) => x.toMap()).toList()});
+    if(training != null){
+      result.addAll({'training': training?.map((x) => x.toMap()).toList()});
+    }
   
     return result;
   }
@@ -77,6 +86,7 @@ class UserEntity {
       email: map['email'],
       photoUrl: map['photoUrl'],
       done: map['done']?.toInt(),
+      rest: map['rest']?.toInt(),
       lastDate: map['lastDate'] is Timestamp ? map['lastDate'].toDate() : DateTime.fromMillisecondsSinceEpoch(map['lastDate']),
       training: List<TrainingEntity>.from(map['training']?.map((x) => TrainingEntity.fromMap(x))),
     );
@@ -88,7 +98,7 @@ class UserEntity {
 
   @override
   String toString() {
-    return 'UserEntity(uid: $uid, name: $name, email: $email, photoUrl: $photoUrl, done: $done, lastDate: $lastDate, training: $training)';
+    return 'UserEntity(uid: $uid, name: $name, email: $email, photoUrl: $photoUrl, done: $done, rest: $rest, lastDate: $lastDate, training: $training)';
   }
 
   @override
@@ -101,6 +111,7 @@ class UserEntity {
       other.email == email &&
       other.photoUrl == photoUrl &&
       other.done == done &&
+      other.rest == rest &&
       other.lastDate == lastDate &&
       listEquals(other.training, training);
   }
@@ -112,6 +123,7 @@ class UserEntity {
       email.hashCode ^
       photoUrl.hashCode ^
       done.hashCode ^
+      rest.hashCode ^
       lastDate.hashCode ^
       training.hashCode;
   }

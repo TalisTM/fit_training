@@ -12,9 +12,7 @@ abstract class _UserStore with Store {
 
   //INSTANCIA DA ENDIDADE DO USUARIO
   @observable
-  UserEntity user = UserEntity(
-    training: ObservableList()
-  );
+  UserEntity user = UserEntity();
 
   //SALVAR USUARIO
   @action
@@ -39,6 +37,14 @@ abstract class _UserStore with Store {
   @action
   resetDone() async {
     user = user.copyWith(done: 0);
+    await Database.save();
+    saveFirebase();
+  }
+
+  //MUDAR TEMPO DE DESCANSO
+  @action
+  setRest(int rest) async {
+    user = user.copyWith(rest: rest);
     await Database.save();
     saveFirebase();
   }
@@ -83,7 +89,7 @@ abstract class _UserStore with Store {
   //CARREGAR OS DADOS DO FIREBASE
   Future<void> loadFirebase(Map<String, dynamic> data) async {
     DateTime date = DateTime.fromMillisecondsSinceEpoch(data["lastDate"]);
-    if(!date.isAtSameMomentAs(user.lastDate!)) { //SE FOR DIFERENTE A DATA
+    if(!isLogged() || !date.isAtSameMomentAs(user.lastDate!)) { //SE FOR DIFERENTE A DATA
       if(!isLogged() || date.isAfter(user.lastDate!)) { //CASO DA DATA RECEBIDA SER MAIS ATUAL OU USUARIO NÃO ESTEJA LOGADO
         setUser(UserEntity.fromMap(data));
       } else { //CASO A DATA RECEBIDA SEJA MAIS ANTIGA | IRÁ SALVAR OS DADOS NO FIREBASE

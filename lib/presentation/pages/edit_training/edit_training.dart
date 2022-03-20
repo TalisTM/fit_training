@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:fit_training/presentation/components/widgets/dialog_widget.dart';
+import 'package:fit_training/presentation/components/widgets/edit_rest_widget.dart';
 import 'package:fit_training/presentation/components/widgets/text_button_widget.dart';
 import 'package:fit_training/presentation/pages/crud_training/crud_training.dart';
 import 'package:fit_training/stores/user/user_store.dart';
@@ -51,6 +52,17 @@ class _EditTrainingState extends State<EditTraining> {
                       },
                       secundaryFunc: () => Navigator.pop(context)
                     )
+                  );
+                  Navigator.push(context, MaterialPageRoute(builder: (context) => const CrudTraining())); //provisórioooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooo
+                }
+              ),
+              PopupMenuItem(
+                child: const Text("Editar tempo de descanso"),
+                onTap: () {
+                  Navigator.pop(context);
+                  showDialog(
+                    context: context,
+                    builder: (context) => const EditRestWidget()
                   );
                   Navigator.push(context, MaterialPageRoute(builder: (context) => const CrudTraining())); //provisórioooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooo
                 }

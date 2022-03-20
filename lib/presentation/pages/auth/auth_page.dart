@@ -56,6 +56,7 @@ class _AuthPageState extends State<AuthPage> {
               email: user.email,
               photoUrl: user.photoURL,
               done: 0,
+              rest: 30,
               lastDate: DateTime.now(),
               training: ObservableList()
             )
