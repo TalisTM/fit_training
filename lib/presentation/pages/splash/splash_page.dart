@@ -42,9 +42,9 @@ class _SplashPageState extends State<SplashPage> {
 
     Future.delayed(const Duration(seconds: 1)).then((value) {
       if(isLogged()) {
-        Navigator.push(context, MaterialPageRoute(builder: (context) => const HomePage()));
+        Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => const HomePage()), (route) => false);
       } else {
-        Navigator.push(context, MaterialPageRoute(builder: (context) => const AuthPage()));
+        Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => const AuthPage()), (route) => false);
       }
     });
   }

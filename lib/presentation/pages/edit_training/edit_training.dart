@@ -42,7 +42,7 @@ class _EditTrainingState extends State<EditTraining> {
                     context: context,
                     builder: (context) => DialogWidget(
                       title: "Atenção",
-                      subTitle: "Tem certeza que deseja zerar o número de treinos feitos",
+                      subTitle: "Tem certeza que deseja zerar o número de treinos feitos?",
                       primarylabel: "Confirmar",
                       secundaryLabel: "Cancelar",
                       primaryFunc: () async {

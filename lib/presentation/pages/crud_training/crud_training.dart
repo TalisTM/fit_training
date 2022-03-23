@@ -50,13 +50,13 @@ class _CrudTrainingState extends State<CrudTraining> {
             context: context,
             builder: (context) => DialogWidget(
               title: "Atenção",
-              subTitle: "Todas as alterações feitas serão perdidas",
-              primarylabel: "Continuar",
+              subTitle: "Todas as alterações feitas serão perdidas.",
+              primarylabel: "Sair",
               primaryFunc: () {
                 Navigator.pop(context);
                 Navigator.pop(context);
               },
-              secundaryLabel: "Cancelar",
+              secundaryLabel: "Permanecer",
               secundaryFunc: () => Navigator.pop(context),
             )
           );
