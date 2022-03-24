@@ -37,6 +37,7 @@ class _CrudTrainingState extends State<CrudTraining> {
     if(widget.index != null) {
       training = TrainingEntity.fromMap(userStore.user.training![widget.index!].toMap());
       _nameController.text = training.name!;
+      _abstractController.text = training.abstract!;
     }
   }
 
