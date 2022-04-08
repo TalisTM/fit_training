@@ -3,6 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:fit_training/database/database.dart';
 import 'package:fit_training/presentation/pages/auth/auth_page.dart';
 import 'package:fit_training/presentation/pages/home/home_page.dart';
+import 'package:fit_training/presentation/pages/splash/widgets/animated_logo.dart';
 import 'package:fit_training/stores/user/user_store.dart';
 import 'package:fit_training/utils/is_logged.dart';
 import 'package:flutter/material.dart';
@@ -16,10 +17,12 @@ class SplashPage extends StatefulWidget {
   _SplashPageState createState() => _SplashPageState();
 }
 
-class _SplashPageState extends State<SplashPage> {
+class _SplashPageState extends State<SplashPage> with SingleTickerProviderStateMixin{
 
   final userStore = GetIt.I.get<UserStore>();
   bool isDarkMode = false;
+
+  late final AnimationController _animationController;
 
   Future<void> _getDatas() async {
     await Database.load();
@@ -38,27 +41,44 @@ class _SplashPageState extends State<SplashPage> {
     var brightness = SchedulerBinding.instance?.window.platformBrightness;
     isDarkMode = brightness == Brightness.dark;
 
+    _animationController = AnimationController(vsync: this, duration: const Duration(seconds: 3));
+
+    _animationController.forward();
+
     _getDatas();
 
-    Future.delayed(const Duration(seconds: 1)).then((value) {
-      if(isLogged()) {
-        Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => const HomePage()), (route) => false);
-      } else {
-        Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => const AuthPage()), (route) => false);
+    _animationController.addStatusListener((status) {
+      if(status == AnimationStatus.completed) {
+        if(isLogged()) {
+          Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => const HomePage()), (route) => false);
+        } else {
+          Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => const AuthPage()), (route) => false);
+        }
       }
     });
   }
 
   @override
+  void dispose() {
+    _animationController.dispose();
+
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
-    return isDarkMode
-      ? Image.asset(
-        'assets/images/splash-dark.png',
-        fit: BoxFit.cover,
-      )
-      : Image.asset(
-        'assets/images/splash.png',
-        fit: BoxFit.cover,
-      );
+    return Stack(
+      alignment: Alignment.center,
+      children: [
+        Image.asset(
+          'assets/images/splash.png',
+          fit: BoxFit.cover,
+        ),
+        AnimatedLogo(
+          controller: _animationController,
+          isDarkMode: isDarkMode
+        )
+      ],
+    );
   }
 }
