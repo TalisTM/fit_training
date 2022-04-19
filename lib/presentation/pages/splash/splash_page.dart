@@ -41,8 +41,7 @@ class _SplashPageState extends State<SplashPage> with SingleTickerProviderStateM
     var brightness = SchedulerBinding.instance?.window.platformBrightness;
     isDarkMode = brightness == Brightness.dark;
 
-    _animationController = AnimationController(vsync: this, duration: const Duration(seconds: 3));
-
+    _animationController = AnimationController(vsync: this, duration: const Duration(seconds: 2));
     _animationController.forward();
 
     _getDatas();
@@ -67,18 +66,17 @@ class _SplashPageState extends State<SplashPage> with SingleTickerProviderStateM
 
   @override
   Widget build(BuildContext context) {
-    return Stack(
-      alignment: Alignment.center,
-      children: [
-        Image.asset(
-          'assets/images/splash.png',
-          fit: BoxFit.cover,
-        ),
-        AnimatedLogo(
-          controller: _animationController,
-          isDarkMode: isDarkMode
+    timeDilation = 1;
+    return Container(
+      decoration: const BoxDecoration(
+        image: DecorationImage(
+          image: AssetImage('assets/images/splash.png'),
+          fit: BoxFit.cover
         )
-      ],
+      ),
+      child: Center(
+        child: AnimatedLogo(controller: _animationController, isDarkMode: isDarkMode),
+      ),
     );
   }
 }
